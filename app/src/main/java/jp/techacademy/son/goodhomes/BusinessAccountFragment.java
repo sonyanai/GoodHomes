@@ -1,14 +1,11 @@
 package jp.techacademy.son.goodhomes;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +40,7 @@ public class BusinessAccountFragment extends Fragment {
     TextView moneyEvaluationTextView;
     TextView industryTextView;
     Button businessChangeButton;
+    Button estimateButton;
     ImageView companyImageView;
     String Uid;
     DatabaseReference databaseReference;
@@ -114,6 +112,7 @@ public class BusinessAccountFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_businessaccount,container,false);
 
         companyImageView = (ImageView)v.findViewById(R.id.companyImageView);
+        estimateButton = (Button)v.findViewById(R.id.estimateButton);
         companyNameTextView = (TextView)v.findViewById(R.id.companyNameTextView);
         addressTextView = (TextView)v.findViewById(R.id.addressTextView);
         companyNumberTextView = (TextView)v.findViewById(R.id.companyNumberTextView);
@@ -139,9 +138,14 @@ public class BusinessAccountFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (bundle!=null){
             Uid = bundle.getString("Uid");
+            String mUid = user.getUid();
+            if (Uid.equals(mUid)){
+                estimateButton.setVisibility(View.GONE);
+            }
             businessChangeButton.setVisibility(View.GONE);
         }else {
             Uid = user.getUid();
+            estimateButton.setVisibility(View.GONE);
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
