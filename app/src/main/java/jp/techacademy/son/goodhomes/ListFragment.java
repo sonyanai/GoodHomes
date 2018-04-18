@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -123,6 +124,25 @@ public class ListFragment extends Fragment {
 
 
         userPathRef.addChildEventListener(bEventListener);
+
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("Uid", businessDataArrayList.get(position).getUid());
+
+
+                BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
+                fragmentBusinessAccount.setArguments(bundle);
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container,fragmentBusinessAccount,BusinessAccountFragment.TAG)
+                        .commit();
+
+            }
+        });
 
 
 
