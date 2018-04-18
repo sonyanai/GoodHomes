@@ -61,6 +61,7 @@ public class ListFragment extends Fragment {
             mListView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
 
+
 //            if (gyousyu.equals("reform")){
 //                if(post.getGyousyu.equals("reform")){
 //                    list.add(post);
