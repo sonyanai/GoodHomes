@@ -63,15 +63,17 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
 
         if (mCompanyName != null) {
             holder.companyNameTextView.setText(mCompanyName);
+            holder.companyNameTextView.setTextSize(16.0f);
+
         }
         if (mIndustry != null) {
             holder.industryTextView.setText(mIndustry);
         }
         if (mTotalEvaluation != null) {
-            holder.totalEvaluationTextView.setText(mTotalEvaluation);
+            holder.totalEvaluationTextView.setText("総合評価 " + mTotalEvaluation);
         }
         if (mMoneyEvaluation != null) {
-            holder.moneyEvaluationTextView.setText(mMoneyEvaluation);
+            holder.moneyEvaluationTextView.setText("平均見積り誤差 " + mMoneyEvaluation);
         }
         if (mBitmapString != null) {
             //holder.companyImageView.setImageDrawable(mBitmapString);
