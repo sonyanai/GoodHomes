@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_List"
+            android:title="l"
+            android:icon="@drawable/ic_launcher_background"/>
+        <item
+            android:id="@+id/item_Favorite"
+            android:title="f"
+            android:icon="@drawable/ic_launcher_background"/>
+        <item
+            android:id="@+id/item_Message"
+            android:title="m"
+            android:icon="@drawable/ic_launcher_background"/>
+
+    </group>
+</menu>

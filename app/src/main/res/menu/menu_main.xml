@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jp.techacademy.refuse.black.reject.MainActivity">
+
+    <group>
+        <item
+            android:id="@+id/sortButton"
+            android:icon="@drawable/plus"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:title="並び替え"/>
+        <item
+            android:id="@+id/accountButton"
+            android:icon="@drawable/plus"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:title="アカウント"/>
+        <item
+            android:id="@+id/loginButton"
+            android:icon="@drawable/plus"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:title="login"/>
+        <item
+            android:id="@+id/logoutButton"
+            android:icon="@drawable/plus"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:title="logout"/>
+
+
+    </group>
+
+
+</menu>

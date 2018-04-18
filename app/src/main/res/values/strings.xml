@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">GoodHomes</string>
+
+<string-array name="PropertyList">
+    <item>木造</item>
+    <item>軽量鉄骨造(プレハブ)</item>
+    <item>重量鉄骨造</item>
+    <item>鉄筋コンクリート造</item>
+    <item>ログハウス</item>
+    <item>その他</item>
+</string-array>
+
+<string-array name="BudgetList">
+    <item>選択する</item>
+    <item>～20万</item>
+    <item>21万～40万</item>
+    <item>41万～60万</item>
+    <item>61万～80万</item>
+    <item>81万～100万</item>
+    <item>100万～150万</item>
+    <item>150万～200万</item>
+    <item>200万～</item>
+</string-array>
+
+<string-array name="AgeList">
+    <item>選択する</item>
+    <item>10代</item>
+    <item>20代</item>
+    <item>30代</item>
+    <item>40代</item>
+    <item>50代</item>
+    <item>60代</item>
+    <item>70代～</item>
+</string-array>
+
+</resources>
