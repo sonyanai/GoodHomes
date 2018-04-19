@@ -52,11 +52,16 @@ public class BusinessAccountFragment extends Fragment {
     Button estimateButton;
     ImageView companyImageView;
     String Uid;
+    String openName;
+    String openedCompanyName;
     DatabaseReference databaseReference;
     DatabaseReference userPathRef;
     DatabaseReference businessRequestPathRef;
     DatabaseReference customerRequestPathRef;
     private FirebaseUser user;
+    String place;
+    TextView flagTextView;
+    String openedBitmapString = "0";
 
 
 
@@ -78,8 +83,9 @@ public class BusinessAccountFragment extends Fragment {
             final String moneyEvaluation = (String) map.get("MoneyEvaluation");
             final String industry = (String) map.get("Industry");
             final String pr = (String) map.get("Pr");
+            final String flag = (String)map.get("flag");
 
-            BusinessData post = new BusinessData(mUid, companyName,address,companyNumber,name,bitmapString,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr);
+            BusinessData post = new BusinessData(mUid, companyName,address,companyNumber,name,bitmapString,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr,flag);
 
             if (post.getUid().equals(Uid)){
                 nameTextView.setText(post.getName());
@@ -94,6 +100,9 @@ public class BusinessAccountFragment extends Fragment {
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
                 industryTextView.setText(post.getIndustry());
                 prTextView.setText(post.getPr());
+                openedCompanyName = post.getCompanyName();
+                openedBitmapString = post.getBitmapString();
+                flagTextView.setText(post.getFlag());
 
                 if (post.getBitmapString() != null){
                     if ((post.getBitmapString().length()>10)) {
@@ -152,6 +161,7 @@ public class BusinessAccountFragment extends Fragment {
         industryTextView = (TextView)v.findViewById(R.id.industryTextView);
         prTextView = (TextView)v.findViewById(R.id.prTextView);
         businessChangeButton = (Button)v.findViewById(R.id.businessChangeButton);
+        flagTextView = (TextView)v.findViewById(R.id.flagTextView);
 
         return v;
     }
@@ -166,6 +176,8 @@ public class BusinessAccountFragment extends Fragment {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String flag = sp.getString(Const.FlagKEY, "");
+        openName = sp.getString(Const.NameKEY, "");
+        place = sp.getString(Const.PlaceKEY,"");
 
         //メッセージから開いたとき
         Bundle bundle = getArguments();
@@ -219,6 +231,8 @@ public class BusinessAccountFragment extends Fragment {
                 String mUid = user.getUid();
 
                 data1.put("mUid", mUid);
+                data1.put("name", openedCompanyName);
+                data1.put("bitmapString",openedBitmapString);
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
 
@@ -228,6 +242,8 @@ public class BusinessAccountFragment extends Fragment {
 
 
                 data2.put("mUid", Uid);
+                data2.put("name", openName);
+                data2.put("place",place);
                 customerRequestPathRef.child(mUid).setValue(data2);
 
             }

@@ -20,6 +20,7 @@ public class BusinessData {
     private String mMoneyEvaluation;
     private String mIndustry;
     private String mPr;
+    private String mFlag;
 
 
 
@@ -65,8 +66,11 @@ public class BusinessData {
     public String getPr(){
         return mPr;
     }
+    public String getFlag(){
+        return  mFlag;
+    }
 
-    public BusinessData(String uid,String companyName,String address,String companyNumber,String name,String bitmapString,String totalEstimate,String unwatchEstimate,String thisPayment,String nextPayment,String totalEvaluation,String moneyEvaluation,String industry,String pr) {
+    public BusinessData(String uid,String companyName,String address,String companyNumber,String name,String bitmapString,String totalEstimate,String unwatchEstimate,String thisPayment,String nextPayment,String totalEvaluation,String moneyEvaluation,String industry,String pr,String flag) {
         mUid = uid;
         mCompanyName = companyName;
         mAddress = address;
@@ -81,6 +85,7 @@ public class BusinessData {
         mMoneyEvaluation = moneyEvaluation;
         mIndustry = industry;
         mPr = pr;
+        mFlag = flag;
     }
 }
 

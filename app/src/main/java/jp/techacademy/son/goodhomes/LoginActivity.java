@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             // 表示名をPrefarenceに保存する
-                            saveCompanyData(mUid,companyName,address,companyNumber,name,sex,age,bitmapString,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr,flag);
+                            saveCompanyData(mUid,companyName,address,companyNumber,name,bitmapString,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr,flag);
 
 
                             // アカウント作成の時は表示名をFirebaseに保存する
@@ -436,7 +436,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void saveCompanyData(String mUid,String companyName,String address,String companyNumber,String name,String sex,String age,String bitmapString,String totalEstimate,String unwatchEstimate,String thisPayment,String nextPayment,String totalEvaluation,String moneyEvaluation,String industry,String pr,String flag) {
+    private void saveCompanyData(String mUid,String companyName,String address,String companyNumber,String name,String bitmapString,String totalEstimate,String unwatchEstimate,String thisPayment,String nextPayment,String totalEvaluation,String moneyEvaluation,String industry,String pr,String flag) {
         // Preferenceに保存する
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();

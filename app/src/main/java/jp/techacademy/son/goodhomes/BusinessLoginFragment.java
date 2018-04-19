@@ -54,7 +54,7 @@ public class BusinessLoginFragment extends Fragment {
     TextView nextPaymentTextView;
     TextView totalEvaluationTextView;
     TextView moneyEvaluationTextView;
-    String flag;
+    TextView flagTextView;
     String check1="";
     String check2="";
     String check3="";
@@ -85,8 +85,9 @@ public class BusinessLoginFragment extends Fragment {
             final String moneyEvaluation = (String) map.get("MoneyEvaluation");
             final String industry = (String)map.get("Industry");
             final String pr = (String) map.get("Pr");
+            final String flag = (String)map.get("flag");
 
-            BusinessData post = new BusinessData(mUids, companyNames,addresss,companyNumbers,names,bitmapStrings,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr);
+            BusinessData post = new BusinessData(mUids, companyNames,addresss,companyNumbers,names,bitmapStrings,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr,flag);
 
             if (post.getUid().equals(Uid)){
                 companyNameEditText.setText(post.getCompanyName());
@@ -100,6 +101,7 @@ public class BusinessLoginFragment extends Fragment {
                 nextPaymentTextView.setText(post.getNextPayment());
                 totalEvaluationTextView.setText(post.getTotalEvaluation());
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
+                flagTextView.setText(post.getFlag());
 
                 if (post.getBitmapString() != null){
                     if (post.getBitmapString().length()>10) {
@@ -129,7 +131,6 @@ public class BusinessLoginFragment extends Fragment {
 
 
 
-                //ImageView.set
             }
 
 
@@ -170,6 +171,7 @@ public class BusinessLoginFragment extends Fragment {
         nextPaymentTextView = (TextView)v.findViewById(R.id.nextPaymentTextView);
         totalEvaluationTextView = (TextView)v.findViewById(R.id.totalEvaluationTextView);
         moneyEvaluationTextView = (TextView)v.findViewById(R.id.moneyEvaluationTextView);
+        flagTextView = (TextView)v.findViewById(R.id.flagTextView);
         checkBox1 = (CheckBox)v.findViewById(R.id.reformCheckBox);
         checkBox2 = (CheckBox)v.findViewById(R.id.dismantlingCheckBox);
         checkBox3 = (CheckBox)v.findViewById(R.id.designCheckBox);
@@ -212,6 +214,7 @@ public class BusinessLoginFragment extends Fragment {
                 String companyNumber = companyNumberEditText.getText().toString();
                 String UserName = userNameEditText.getText().toString();
                 String pr = prEditText.getText().toString();
+                String flag = flagTextView.getText().toString();
 
                 String totalEstimate = totalEstimateTextView.getText().toString();
                 String unwatchEstimate = unwatchEstimateTextView.getText().toString();
