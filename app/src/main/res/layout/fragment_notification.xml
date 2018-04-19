@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:id="@+id/listRadioGroup"
             android:layout_alignParentTop="true"
             android:orientation="horizontal">
@@ -30,14 +31,17 @@
                 android:gravity="center"
                 android:id="@+id/yetListButton"/>
         </RadioGroup>
+
     </RelativeLayout>
+
+
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/list"
-        android:background="#00FF00">
-
+        android:layout_height="match_parent"
+        android:id="@+id/listView"
+        android:background="#00FF00"
+        android:layout_marginBottom="50dp">
 
     </ListView>
 
