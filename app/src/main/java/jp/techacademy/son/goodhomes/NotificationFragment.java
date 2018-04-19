@@ -42,6 +42,7 @@ public class NotificationFragment extends Fragment {
 
 
 
+
     ChildEventListener bEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
