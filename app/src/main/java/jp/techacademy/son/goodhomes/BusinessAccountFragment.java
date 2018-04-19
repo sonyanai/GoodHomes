@@ -163,6 +163,7 @@ public class BusinessAccountFragment extends Fragment {
         businessRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessRequestPath);
         customerRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerRequestPath);
         userPathRef = databaseReference.child(Const.BusinessPath);
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String flag = sp.getString(Const.FlagKEY, "");
 
