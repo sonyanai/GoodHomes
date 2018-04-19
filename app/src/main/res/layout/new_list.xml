@@ -47,11 +47,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/moneyEvaluationTextView"/>
+                    android:id="@+id/totalEvaluationTextView"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/totalEvaluationTextView"
+                    android:id="@+id/moneyEvaluationTextView"
                     android:layout_marginLeft="10dp"/>
             </LinearLayout>
 

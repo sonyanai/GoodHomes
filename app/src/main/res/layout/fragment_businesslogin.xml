@@ -64,7 +64,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="申請中の見積り"/>
+            android:text="審議中の見積り"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,11 +99,11 @@
             android:id="@+id/industryTextView"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/companyImageView"
             android:layout_gravity="center"
-            android:background="#FFFF00"/>
+            android:background="#FF0000"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
