@@ -72,13 +72,16 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
         if (mMoneyEvaluation != null) {
             holder.moneyEvaluationTextView.setText("平均見積り誤差　" + mMoneyEvaluation);
         }
-        if (mBitmapString != null) {
-            byte[] bytes = Base64.decode(mBitmapString,Base64.DEFAULT);
-            if(bytes.length != 0){
-                Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
-                holder.companyImageView.setImageBitmap(image);
+        if (mBitmapString != null){
+            if (mBitmapString.length()>10) {
+                byte[] bytes = Base64.decode(mBitmapString,Base64.DEFAULT);
+                if(bytes.length != 0){
+                    Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
+                    holder.companyImageView.setImageBitmap(image);
+                }
             }
         }
+
 
 
         return convertView;

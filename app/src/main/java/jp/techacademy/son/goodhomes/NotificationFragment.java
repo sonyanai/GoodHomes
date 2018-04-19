@@ -11,15 +11,15 @@ import android.view.ViewGroup;
  * Created by taiso on 2018/04/03.
  */
 
-public class FavoriteFragment extends Fragment {
-    public static final String TAG = "FavoriteFragment";
+public class NotificationFragment extends Fragment {
+    public static final String TAG = "NotificationFragment";
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_favorite,container,false);
+        View v = inflater.inflate(R.layout.fragment_notification,container,false);
 
         return v;
     }

@@ -1,8 +1,10 @@
 package jp.techacademy.son.goodhomes;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -51,6 +54,8 @@ public class BusinessAccountFragment extends Fragment {
     String Uid;
     DatabaseReference databaseReference;
     DatabaseReference userPathRef;
+    DatabaseReference businessRequestPathRef;
+    DatabaseReference customerRequestPathRef;
     private FirebaseUser user;
 
 
@@ -90,13 +95,16 @@ public class BusinessAccountFragment extends Fragment {
                 industryTextView.setText(post.getIndustry());
                 prTextView.setText(post.getPr());
 
-                if ((post.getBitmapString() != null)) {
-                    byte[] bytes = Base64.decode(bitmapString,Base64.DEFAULT);
-                    if(bytes.length != 0){
-                        Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
-                        companyImageView.setImageBitmap(image);
+                if (post.getBitmapString() != null){
+                    if ((post.getBitmapString().length()>10)) {
+                        byte[] bytes = Base64.decode(bitmapString,Base64.DEFAULT);
+                        if(bytes.length != 0){
+                            Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
+                            companyImageView.setImageBitmap(image);
+                        }
                     }
                 }
+
 
 
             }
@@ -151,6 +159,13 @@ public class BusinessAccountFragment extends Fragment {
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        businessRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessRequestPath);
+        customerRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerRequestPath);
+        userPathRef = databaseReference.child(Const.BusinessPath);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String flag = sp.getString(Const.FlagKEY, "");
+
         //メッセージから開いたとき
         Bundle bundle = getArguments();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -167,6 +182,9 @@ public class BusinessAccountFragment extends Fragment {
                 unwatchEstimateText.setVisibility(View.GONE);
                 thisPaymentText.setVisibility(View.GONE);
                 nextPaymentText.setVisibility(View.GONE);
+                if (flag.equals("business")){
+                    estimateButton.setVisibility(View.GONE);
+                }
             }
 
         }else {
@@ -174,8 +192,7 @@ public class BusinessAccountFragment extends Fragment {
             estimateButton.setVisibility(View.GONE);
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        userPathRef = databaseReference.child(Const.BusinessPath);
+
         userPathRef.addChildEventListener(mEventListener);
 
 
@@ -188,6 +205,29 @@ public class BusinessAccountFragment extends Fragment {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container,fragmentBusinessLogin,BusinessLoginFragment.TAG)
                         .commit();
+
+            }
+        });
+
+        view.findViewById(R.id.estimateButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Map<String, String> data1 = new HashMap<String, String>();
+
+                String mUid = user.getUid();
+
+                data1.put("mUid", mUid);
+                //Uidは開いてるアカウントの会社のやつ
+                //mUidは開いてる人のやつ
+
+                businessRequestPathRef.child(Uid).setValue(data1);
+
+                Map<String, String> data2 = new HashMap<String, String>();
+
+
+                data2.put("mUid", Uid);
+                customerRequestPathRef.child(mUid).setValue(data2);
 
             }
         });

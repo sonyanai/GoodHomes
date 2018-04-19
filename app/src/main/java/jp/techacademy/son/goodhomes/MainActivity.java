@@ -1,6 +1,5 @@
 package jp.techacademy.son.goodhomes;
 
-import android.*;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CHOOSER_REQUEST_CODE = 100;
 
     public ListFragment fragmentList;
-    public FavoriteFragment fragmentFavorite;
+    public NotificationFragment fragmentNotification;
     public MessageFragment fragmentMessage;
     Uri mPictureUri;
 
@@ -53,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     transaction.commit();
                     return true;
 
-                case R.id.item_Favorite:
-                    fragmentFavorite = new FavoriteFragment();
-                    transaction.replace(R.id.container, fragmentFavorite);
+                case R.id.item_Notification:
+                    fragmentNotification = new NotificationFragment();
+                    transaction.replace(R.id.container, fragmentNotification);
                     transaction.commit();
                     return true;
 

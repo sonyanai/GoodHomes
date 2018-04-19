@@ -101,13 +101,16 @@ public class BusinessLoginFragment extends Fragment {
                 totalEvaluationTextView.setText(post.getTotalEvaluation());
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
 
-                if (post.getBitmapString() != null) {
-                    byte[] bytes = Base64.decode(post.getBitmapString(),Base64.DEFAULT);
-                    if(bytes.length != 0){
-                        Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
-                        companyImageView.setImageBitmap(image);
+                if (post.getBitmapString() != null){
+                    if (post.getBitmapString().length()>10) {
+                        byte[] bytes = Base64.decode(post.getBitmapString(),Base64.DEFAULT);
+                        if(bytes.length != 0){
+                            Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
+                            companyImageView.setImageBitmap(image);
+                        }
                     }
                 }
+
 
                 //チェックボックスリフォーム箇所
                 if(post.getIndustry().indexOf("リフォーム業")>-1){
@@ -230,13 +233,17 @@ public class BusinessLoginFragment extends Fragment {
                 if (checkBox4.isChecked()){
                     check4 ="建設業　";
                 }
+                String bitmapString = null;
 
                 BitmapDrawable drawable = (BitmapDrawable) companyImageView.getDrawable();
-                Bitmap bmp = drawable.getBitmap();
+                if (drawable!=null){
+                    Bitmap bmp = drawable.getBitmap();
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-                String bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+                    bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                }
+
 
 
 

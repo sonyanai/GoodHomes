@@ -7,8 +7,8 @@
             android:title="l"
             android:icon="@drawable/ic_launcher_background"/>
         <item
-            android:id="@+id/item_Favorite"
-            android:title="f"
+            android:id="@+id/item_Notification"
+            android:title="n"
             android:icon="@drawable/ic_launcher_background"/>
         <item
             android:id="@+id/item_Message"
