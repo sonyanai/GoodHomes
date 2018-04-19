@@ -1,9 +1,13 @@
 package jp.techacademy.son.goodhomes;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +54,6 @@ public class BusinessLoginFragment extends Fragment {
     TextView nextPaymentTextView;
     TextView totalEvaluationTextView;
     TextView moneyEvaluationTextView;
-    TextView industryTextView;
     String flag;
     String check1="";
     String check2="";
@@ -96,7 +100,14 @@ public class BusinessLoginFragment extends Fragment {
                 nextPaymentTextView.setText(post.getNextPayment());
                 totalEvaluationTextView.setText(post.getTotalEvaluation());
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
-                //industryTextView.setText(post.getIndustry());
+
+                if (post.getBitmapString() != null) {
+                    byte[] bytes = Base64.decode(post.getBitmapString(),Base64.DEFAULT);
+                    if(bytes.length != 0){
+                        Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
+                        companyImageView.setImageBitmap(image);
+                    }
+                }
 
                 //チェックボックスリフォーム箇所
                 if(post.getIndustry().indexOf("リフォーム業")>-1){
@@ -199,7 +210,6 @@ public class BusinessLoginFragment extends Fragment {
                 String UserName = userNameEditText.getText().toString();
                 String pr = prEditText.getText().toString();
 
-                String bitmapString="";
                 String totalEstimate = totalEstimateTextView.getText().toString();
                 String unwatchEstimate = unwatchEstimateTextView.getText().toString();
                 String thisPayment = thisPaymentTextView.getText().toString();
@@ -220,6 +230,16 @@ public class BusinessLoginFragment extends Fragment {
                 if (checkBox4.isChecked()){
                     check4 ="建設業　";
                 }
+
+                BitmapDrawable drawable = (BitmapDrawable) companyImageView.getDrawable();
+                Bitmap bmp = drawable.getBitmap();
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bmp.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+                String bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+
+
+
 
                 String industry = check1 + check2 + check3 + check4;
 
