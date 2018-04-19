@@ -35,6 +35,9 @@ public class BusinessAccountFragment extends Fragment {
     TextView unwatchEstimateTextView;
     TextView thisPaymentTextView;
     TextView nextPaymentTextView;
+    TextView unwatchEstimateText;
+    TextView thisPaymentText;
+    TextView nextPaymentText;
     TextView prTextView;
     TextView totalEvaluationTextView;
     TextView moneyEvaluationTextView;
@@ -84,6 +87,7 @@ public class BusinessAccountFragment extends Fragment {
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
                 industryTextView.setText(post.getIndustry());
                 prTextView.setText(post.getPr());
+
             }
 
 
@@ -121,6 +125,9 @@ public class BusinessAccountFragment extends Fragment {
         unwatchEstimateTextView = (TextView)v.findViewById(R.id.unwatchEstimateTextView);
         thisPaymentTextView = (TextView)v.findViewById(R.id.thisPaymentTextView);
         nextPaymentTextView = (TextView)v.findViewById(R.id.nextPaymentTextView);
+        unwatchEstimateText = (TextView)v.findViewById(R.id.unwatchEstimateText);
+        thisPaymentText = (TextView)v.findViewById(R.id.thisPaymentText);
+        nextPaymentText = (TextView)v.findViewById(R.id.nextPaymentText);
         totalEvaluationTextView = (TextView)v.findViewById(R.id.totalEvaluationTextView);
         moneyEvaluationTextView = (TextView)v.findViewById(R.id.moneyEvaluationTextView);
         industryTextView = (TextView)v.findViewById(R.id.industryTextView);
@@ -141,8 +148,16 @@ public class BusinessAccountFragment extends Fragment {
             String mUid = user.getUid();
             if (Uid.equals(mUid)){
                 estimateButton.setVisibility(View.GONE);
+            }else {
+                businessChangeButton.setVisibility(View.GONE);
+                unwatchEstimateTextView.setVisibility(View.GONE);
+                thisPaymentTextView.setVisibility(View.GONE);
+                nextPaymentTextView.setVisibility(View.GONE);
+                unwatchEstimateText.setVisibility(View.GONE);
+                thisPaymentText.setVisibility(View.GONE);
+                nextPaymentText.setVisibility(View.GONE);
             }
-            businessChangeButton.setVisibility(View.GONE);
+
         }else {
             Uid = user.getUid();
             estimateButton.setVisibility(View.GONE);

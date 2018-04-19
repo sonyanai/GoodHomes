@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class BusinessLoginFragment extends Fragment {
     EditText companyNumberEditText;
     EditText userNameEditText;
     EditText prEditText;
-    ImageView companyImageView;
+    public static ImageView companyImageView;
     Button okButton;
     FirebaseUser user;
     DatabaseReference databaseReference;
@@ -50,6 +51,14 @@ public class BusinessLoginFragment extends Fragment {
     TextView moneyEvaluationTextView;
     TextView industryTextView;
     String flag;
+    String check1="";
+    String check2="";
+    String check3="";
+    String check4="";
+    CheckBox checkBox1;
+    CheckBox checkBox2;
+    CheckBox checkBox3;
+    CheckBox checkBox4;
 
 
 
@@ -87,7 +96,24 @@ public class BusinessLoginFragment extends Fragment {
                 nextPaymentTextView.setText(post.getNextPayment());
                 totalEvaluationTextView.setText(post.getTotalEvaluation());
                 moneyEvaluationTextView.setText(post.getMoneyEvaluation());
-                industryTextView.setText(post.getIndustry());
+                //industryTextView.setText(post.getIndustry());
+
+                //チェックボックスリフォーム箇所
+                if(post.getIndustry().indexOf("リフォーム業")>-1){
+                    checkBox1.setChecked(true);
+                }
+                if(post.getIndustry().indexOf("解体業")>-1){
+                    checkBox2.setChecked(true);
+                }
+                if(post.getIndustry().indexOf("設計業")>-1){
+                    checkBox3.setChecked(true);
+                }
+                if(post.getIndustry().indexOf("建設業")>-1){
+                    checkBox4.setChecked(true);
+                }
+
+
+
 
                 //ImageView.set
             }
@@ -130,7 +156,10 @@ public class BusinessLoginFragment extends Fragment {
         nextPaymentTextView = (TextView)v.findViewById(R.id.nextPaymentTextView);
         totalEvaluationTextView = (TextView)v.findViewById(R.id.totalEvaluationTextView);
         moneyEvaluationTextView = (TextView)v.findViewById(R.id.moneyEvaluationTextView);
-        industryTextView = (TextView)v.findViewById(R.id.industryTextView);
+        checkBox1 = (CheckBox)v.findViewById(R.id.reformCheckBox);
+        checkBox2 = (CheckBox)v.findViewById(R.id.dismantlingCheckBox);
+        checkBox3 = (CheckBox)v.findViewById(R.id.designCheckBox);
+        checkBox4 = (CheckBox)v.findViewById(R.id.buildingCheckBox);
 
 
         okButton = (Button)v.findViewById(R.id.okButton);
@@ -151,7 +180,12 @@ public class BusinessLoginFragment extends Fragment {
 
 
 
-
+        companyImageView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                MainActivity activity = (MainActivity)getActivity();
+                activity.onSelfCheck();
+            }
+        });
 
         view.findViewById(R.id.okButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,8 +206,22 @@ public class BusinessLoginFragment extends Fragment {
                 String nextPayment = nextPaymentTextView.getText().toString();
                 String moneyEvaluation = moneyEvaluationTextView.getText().toString();
                 String totalEvaluation = totalEvaluationTextView.getText().toString();
-                String industry = industryTextView.getText().toString();
 
+
+                if (checkBox1.isChecked()){
+                    check1 ="リフォーム業　";
+                }
+                if (checkBox2.isChecked()){
+                    check2 ="解体業　";
+                }
+                if (checkBox3.isChecked()){
+                    check3 ="設計業　";
+                }
+                if (checkBox4.isChecked()){
+                    check4 ="建設業　";
+                }
+
+                String industry = check1 + check2 + check3 + check4;
 
 
                 Map<String, String> data = new HashMap<String, String>();

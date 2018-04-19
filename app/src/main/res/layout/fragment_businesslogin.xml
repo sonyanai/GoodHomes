@@ -154,17 +154,38 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="業種"/>
-            <TextView
+                android:id="@+id/reformCheckBox"
+                android:text="リフォーム業"
+                android:checked="false"/>
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/industryTextView"
-                android:paddingLeft="5dp"/>
+                android:id="@+id/dismantlingCheckBox"
+                android:text="解体業"
+                android:checked="false"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/designCheckBox"
+                android:text="設計業"
+                android:checked="false"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buildingCheckBox"
+                android:text="建設業"
+                android:checked="false"/>
+        </LinearLayout>
 
         <ImageView
             android:layout_width="100dp"

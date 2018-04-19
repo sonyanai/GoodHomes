@@ -1,6 +1,9 @@
 package jp.techacademy.son.goodhomes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +21,6 @@ import java.util.ArrayList;
 class ViewHolder {
     ImageView companyImageView;
     TextView companyNameTextView;
-    TextView industryTextView;
     TextView totalEvaluationTextView;
     TextView moneyEvaluationTextView;
 }
@@ -39,7 +41,6 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
 
         String mBitmapString = businessDataArrayList.get(position).getBitmapString();
         String mCompanyName = businessDataArrayList.get(position).getCompanyName();
-        String mIndustry = businessDataArrayList.get(position).getIndustry();
         String mTotalEvaluation = businessDataArrayList.get(position).getTotalEvaluation();
         String mMoneyEvaluation = businessDataArrayList.get(position).getMoneyEvaluation();
 
@@ -52,7 +53,6 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.companyImageView = (ImageView) convertView.findViewById(R.id.companyImageView);
             holder.companyNameTextView = (TextView) convertView.findViewById(R.id.companyNameTextView);
-            holder.industryTextView = (TextView) convertView.findViewById(R.id.industryTextView);
             holder.totalEvaluationTextView = (TextView) convertView.findViewById(R.id.totalEvaluationTextView);
             holder.moneyEvaluationTextView = (TextView) convertView.findViewById(R.id.moneyEvaluationTextView);
             convertView.setTag(holder);
@@ -66,17 +66,18 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
             holder.companyNameTextView.setTextSize(16.0f);
 
         }
-        if (mIndustry != null) {
-            holder.industryTextView.setText(mIndustry);
-        }
         if (mTotalEvaluation != null) {
-            holder.totalEvaluationTextView.setText("総合評価 " + mTotalEvaluation);
+            holder.totalEvaluationTextView.setText("総合評価　" + mTotalEvaluation);
         }
         if (mMoneyEvaluation != null) {
-            holder.moneyEvaluationTextView.setText("平均見積り誤差 " + mMoneyEvaluation);
+            holder.moneyEvaluationTextView.setText("平均見積り誤差　" + mMoneyEvaluation);
         }
         if (mBitmapString != null) {
-            //holder.companyImageView.setImageDrawable(mBitmapString);
+            byte[] bytes = Base64.decode(mBitmapString,Base64.DEFAULT);
+            if(bytes.length != 0){
+                Bitmap image = BitmapFactory.decodeByteArray(bytes,0,bytes.length).copy(Bitmap.Config.ARGB_8888,true);
+                holder.companyImageView.setImageBitmap(image);
+            }
         }
 
 

@@ -43,12 +43,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/customerRadioButton"
-                android:text="個人"/>
+                android:text="リフォームや建て替えの依頼をする"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/businessRadioButton"
-                android:text="企業"/>
+                android:text="リフォームや建て替えの依頼を受ける"/>
 
         </RadioGroup>
 

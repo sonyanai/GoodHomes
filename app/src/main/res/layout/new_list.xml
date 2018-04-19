@@ -31,11 +31,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/companyNameTextView"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/industryTextView"/>
             </LinearLayout>
 
             <LinearLayout
@@ -52,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/moneyEvaluationTextView"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="15dp"/>
             </LinearLayout>
 
         </LinearLayout>
