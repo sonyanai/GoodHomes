@@ -242,7 +242,7 @@ public class BusinessAccountFragment extends Fragment {
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put(key1, data1);
 
-                businessRequestPathRef.child(Uid).updateChildren(childUpdates);
+                customerRequestPathRef.child(Uid).updateChildren(childUpdates);
 
 
                 //businessRequestPathRef.child(Uid).child(key).setValue(data1);
@@ -261,7 +261,8 @@ public class BusinessAccountFragment extends Fragment {
                 Map<String, Object> childUpdate = new HashMap<>();
                 childUpdate.put(key2, data2);
 
-                customerRequestPathRef.child(mUid).updateChildren(childUpdate);
+                businessRequestPathRef.child(mUid).updateChildren(childUpdate);
+
 
             }
         });

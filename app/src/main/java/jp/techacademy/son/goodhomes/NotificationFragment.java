@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -154,15 +155,15 @@ public class NotificationFragment extends Fragment {
             okListButton.setText("相談");
             yetListButton.setText("見積り申請中");
 
-            customerDataArrayList.clear();
-            customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
-        }else if (flag.equals("business")){
-            okListButton.setText("商談");
-            yetListButton.setText("見積り申請");
-
             businessDataArrayList.clear();
             businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
 
+              }else if (flag.equals("business")){
+            okListButton.setText("商談");
+            yetListButton.setText("見積り申請");
+
+            customerDataArrayList.clear();
+            customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
         }
 
 
@@ -197,23 +198,63 @@ public class NotificationFragment extends Fragment {
                     }
                 }else{
                     if (flag.equals("customer")){
-                        customerDataArrayList.clear();
-                        customerPathRef.child(Const.CustomerRequestPath).child(uid).addChildEventListener(cEventListener);
-
-                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
-                        mListView.setAdapter(cAdapter);
-                        cAdapter.notifyDataSetChanged();
-                        //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
-                    }else if (flag.equals("business")){
                         businessDataArrayList.clear();
                         businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
 
                         bAdapter.setBusinessDataArrayList(businessDataArrayList);
                         mListView.setAdapter(bAdapter);
                         bAdapter.notifyDataSetChanged();
+                        //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
+                    }else if (flag.equals("business")){
+
+
+                        customerDataArrayList.clear();
+                        customerPathRef.child(Const.CustomerRequestPath).child(uid).addChildEventListener(cEventListener);
+
+                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
+                        mListView.setAdapter(cAdapter);
+                        cAdapter.notifyDataSetChanged();
                     }
                 }
             }
         });
+
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (flag.equals("customer")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Uid", businessDataArrayList.get(position).getUid());
+
+                    BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
+                    fragmentBusinessAccount.setArguments(bundle);
+
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.container,fragmentBusinessAccount,BusinessAccountFragment.TAG)
+                            .commit();
+
+                }else{
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Uid", customerDataArrayList.get(position).getUid());
+
+                    CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
+                    fragmentCustomerAccount.setArguments(bundle);
+
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.container,fragmentCustomerAccount,BusinessAccountFragment.TAG)
+                            .commit();
+
+                }
+
+
+
+
+
+            }
+        });
+
+
     }
 }
