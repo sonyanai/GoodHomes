@@ -181,11 +181,17 @@ public class BusinessAccountFragment extends Fragment {
         openName = sp.getString(Const.NameKEY, "");
         place = sp.getString(Const.PlaceKEY,"");
 
-        //メッセージから開いたとき
+        //notificationから開いたとき
         Bundle bundle = getArguments();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (bundle!=null){
             Uid = bundle.getString("Uid");
+            String arFlag = bundle.getString("arFlag");
+            if (arFlag!=null){
+                if (arFlag.equals("request")){
+                    estimateButton.setVisibility(View.GONE);
+                }
+            }
             String mUid = user.getUid();
             if (Uid.equals(mUid)){
                 estimateButton.setVisibility(View.GONE);

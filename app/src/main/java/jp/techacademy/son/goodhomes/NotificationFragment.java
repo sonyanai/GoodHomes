@@ -205,6 +205,7 @@ public class NotificationFragment extends Fragment {
                         cAdapter.setCustomerDataArrayList(customerDataArrayList);
                         mListView.setAdapter(cAdapter);
                         cAdapter.notifyDataSetChanged();
+                        arFlag ="request";
                         //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
                     }else if (flag.equals("business")){
 
@@ -231,6 +232,7 @@ public class NotificationFragment extends Fragment {
                 if (flag.equals("customer")){
                     Bundle bundle = new Bundle();
                     bundle.putString("Uid", businessDataArrayList.get(position).getUid());
+                    bundle.putString("arFlag",arFlag);
 
                     BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
                     fragmentBusinessAccount.setArguments(bundle);
