@@ -92,8 +92,8 @@ public class BusinessListAdapter extends BaseAdapter {
         //return businessDataArrayList.get(position).getId();
     }
 
-    public void setOkBusinessDataArrayList(ArrayList<BusinessListData> okBusinessDataArrayList) {
-        this.businessDataArrayList = okBusinessDataArrayList;
+    public void setBusinessDataArrayList(ArrayList<BusinessListData> businessDataArrayList) {
+        this.businessDataArrayList = businessDataArrayList;
     }
 }
 
