@@ -167,12 +167,21 @@ public class NotificationFragment extends Fragment {
                         //userPathRef.addChildEventListener(bEventListener);
                         //customerPathRef.child(Const.CustomerAcceptPath).addChildEventListener(cEventListener);
                     }else if (flag.equals("business")){
+                        businessDataArrayList.clear();
                         businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
+
+
+                        bAdapter.setOkBusinessDataArrayList(businessDataArrayList);
+                        mListView.setAdapter(bAdapter);
+                        bAdapter.notifyDataSetChanged();
+
+
                     }
                 }else{
                     if (flag.equals("customer")){
                         //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
                     }else if (flag.equals("business")){
+                        businessDataArrayList.clear();
                         businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
                     }
                 }

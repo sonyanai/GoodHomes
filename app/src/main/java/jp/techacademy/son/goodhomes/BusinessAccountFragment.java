@@ -230,21 +230,38 @@ public class BusinessAccountFragment extends Fragment {
 
                 String mUid = user.getUid();
 
+                String key1 = businessRequestPathRef.child(Uid).push().getKey();
+
                 data1.put("mUid", mUid);
                 data1.put("name", openedCompanyName);
                 data1.put("bitmapString",openedBitmapString);
+                data1.put("key",key1);
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
 
-                businessRequestPathRef.child(Uid).child(Uid).setValue(data1);
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put(key1, data1);
+
+                businessRequestPathRef.child(Uid).updateChildren(childUpdates);
+
+
+                //businessRequestPathRef.child(Uid).child(key).setValue(data1);
 
                 Map<String, String> data2 = new HashMap<String, String>();
+
+                String key2 = customerRequestPathRef.child(mUid).push().getKey();
 
 
                 data2.put("mUid", Uid);
                 data2.put("name", openName);
                 data2.put("place",place);
-                customerRequestPathRef.child(mUid).child(mUid).setValue(data2);
+                data2.put("key",key2);
+                //customerRequestPathRef.child(mUid).child(key2).setValue(data2);
+
+                Map<String, Object> childUpdate = new HashMap<>();
+                childUpdate.put(key2, data2);
+
+                customerRequestPathRef.child(mUid).updateChildren(childUpdate);
 
             }
         });
