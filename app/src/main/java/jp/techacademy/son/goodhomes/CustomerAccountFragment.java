@@ -43,6 +43,7 @@ public class CustomerAccountFragment extends Fragment {
     TextView requestTextView;
     String Uid;
     Button customerChangeButton;
+    Button acceptButton;
     DatabaseReference databaseReference;
     DatabaseReference userPathRef;
     private FirebaseUser user;
@@ -129,17 +130,24 @@ public class CustomerAccountFragment extends Fragment {
         estimateTextView = (TextView)v.findViewById(R.id.estimateTextView);
         requestTextView = (TextView)v.findViewById(R.id.requestTextView);
         customerChangeButton = (Button)v.findViewById(R.id.customerChangeButton);
+        acceptButton = (Button)v.findViewById(R.id.acceptButton);
         return v;
     }
 
     public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //メッセージから開いたとき
+        //notificationfragmentから開いたとき
         Bundle bundle = getArguments();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (bundle!=null){
             Uid = bundle.getString("Uid");
+            String arFlag = bundle.getString("arFlag");
+            if (arFlag!=null){
+                if (!(arFlag.equals("request"))){
+                    acceptButton.setVisibility(View.GONE);
+                }
+            }
             customerChangeButton.setVisibility(View.GONE);
         }else {
             Uid = user.getUid();
@@ -148,6 +156,10 @@ public class CustomerAccountFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         userPathRef = databaseReference.child(Const.CustomerPath);
         userPathRef.addChildEventListener(mEventListener);
+
+
+
+        //
 
 
 

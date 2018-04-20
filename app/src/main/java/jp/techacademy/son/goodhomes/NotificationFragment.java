@@ -44,6 +44,8 @@ public class NotificationFragment extends Fragment {
     FirebaseUser user;
     public ArrayList<BusinessListData> businessDataArrayList;
     public ArrayList<CustomerListData> customerDataArrayList;
+    //acceptかrequestかrequestのときはcustomeraccountに許可ボタン表示
+    String arFlag;
 
 
 
@@ -214,6 +216,8 @@ public class NotificationFragment extends Fragment {
                         mListView.setAdapter(bAdapter);
                         bAdapter.notifyDataSetChanged();
 
+                        arFlag ="request";
+
                     }
                 }
             }
@@ -238,6 +242,7 @@ public class NotificationFragment extends Fragment {
                 }else{
                     Bundle bundle = new Bundle();
                     bundle.putString("Uid", customerDataArrayList.get(position).getUid());
+                    bundle.putString("arFlag",arFlag);
 
                     CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
                     fragmentCustomerAccount.setArguments(bundle);

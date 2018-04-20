@@ -135,6 +135,12 @@
             android:text="変更"
             android:id="@+id/customerChangeButton"
             android:layout_marginBottom="50dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="見積り申請を許可する"
+            android:id="@+id/acceptButton"
+            android:layout_marginBottom="50dp"/>
 
 
 
