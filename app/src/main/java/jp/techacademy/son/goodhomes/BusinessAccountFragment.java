@@ -236,7 +236,7 @@ public class BusinessAccountFragment extends Fragment {
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
 
-                businessRequestPathRef.child(Uid).setValue(data1);
+                businessRequestPathRef.child(Uid).child(Uid).setValue(data1);
 
                 Map<String, String> data2 = new HashMap<String, String>();
 
@@ -244,7 +244,7 @@ public class BusinessAccountFragment extends Fragment {
                 data2.put("mUid", Uid);
                 data2.put("name", openName);
                 data2.put("place",place);
-                customerRequestPathRef.child(mUid).setValue(data2);
+                customerRequestPathRef.child(mUid).child(mUid).setValue(data2);
 
             }
         });

@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +39,7 @@ public class NotificationFragment extends Fragment {
     DatabaseReference customerPathRef;
     BusinessListAdapter bAdapter;
     ListView mListView;
+    FirebaseUser user;
     public ArrayList<BusinessListData> businessDataArrayList;
 
 
@@ -126,12 +129,13 @@ public class NotificationFragment extends Fragment {
         return v;
     }
 
-    public void onViewCreated(View view,Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         businessPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath);
         customerPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -152,31 +156,27 @@ public class NotificationFragment extends Fragment {
 
 
 
-    }
 
-    public void onRadioButtonClicked(View view){
-        RadioButton radioButton = (RadioButton)view;
-        boolean checked = radioButton.isChecked();
-        switch (radioButton.getId()){
-            case  R.id.okListButton:
-                if (checked){
+        listRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                RadioButton radioButton = (RadioButton) view.findViewById(checkedId);
+                String uid = user.getUid();
+                if (okListButton.isChecked() == true){
                     if (flag.equals("customer")){
                         //userPathRef.addChildEventListener(bEventListener);
                         //customerPathRef.child(Const.CustomerAcceptPath).addChildEventListener(cEventListener);
                     }else if (flag.equals("business")){
-                        businessPathRef.child(Const.BusinessAcceptPath).addChildEventListener(bEventListener);
+                        businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
                     }
-                }
-                break;
-            case R.id.yetListButton:
-                if (checked){
+                }else{
                     if (flag.equals("customer")){
                         //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
                     }else if (flag.equals("business")){
-                        businessPathRef.child(Const.BusinessRequestPath).addChildEventListener(bEventListener);
+                        businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
                     }
                 }
-        }
+            }
+        });
     }
-
 }
