@@ -48,16 +48,17 @@ public class NotificationFragment extends Fragment {
 
 
 
-    ChildEventListener bEventListener = new ChildEventListener() {
+    ChildEventListener cEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
             HashMap map = (HashMap) dataSnapshot.getValue();
             final String mUid = (String) map.get("mUid");
-            final String companyName = (String) map.get("CompanyName");
-            final String bitmapString = (String) map.get("BitmapString");
+            final String companyName = (String) map.get("companyName");
+            final String bitmapString = (String) map.get("bitmapString");
+            final String industry = (String)map.get("industry");
             final String key = (String)map.get("key");
 
-            BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,key);
+            BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,industry,key);
             businessDataArrayList.add(post);
             bAdapter.setBusinessDataArrayList(businessDataArrayList);
             mListView.setAdapter(bAdapter);
@@ -82,7 +83,7 @@ public class NotificationFragment extends Fragment {
 
 
 
-    ChildEventListener cEventListener = new ChildEventListener() {
+    ChildEventListener bEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
             HashMap map = (HashMap) dataSnapshot.getValue();
@@ -126,7 +127,7 @@ public class NotificationFragment extends Fragment {
         listRadioGroup = (RadioGroup)v.findViewById(R.id.listRadioGroup);
         okListButton = (RadioButton)v.findViewById(R.id.okListButton);
         yetListButton = (RadioButton)v.findViewById(R.id.yetListButton);
-        bAdapter = new BusinessListAdapter(this.getActivity(), R.layout.company_list);
+        bAdapter = new BusinessListAdapter(this.getActivity(), R.layout.business_list);
         cAdapter = new CustomerListAdapter(this.getActivity(), R.layout.customer_list);
         businessDataArrayList = new ArrayList<BusinessListData>();
         customerDataArrayList = new ArrayList<CustomerListData>();
@@ -177,8 +178,6 @@ public class NotificationFragment extends Fragment {
                 String uid = user.getUid();
                 if (okListButton.isChecked() == true){
                     if (flag.equals("customer")){
-                        //userPathRef.addChildEventListener(bEventListener);
-                        //customerPathRef.child(Const.CustomerAcceptPath).addChildEventListener(cEventListener);
                         customerDataArrayList.clear();
                         customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
 
@@ -198,22 +197,23 @@ public class NotificationFragment extends Fragment {
                     }
                 }else{
                     if (flag.equals("customer")){
-                        businessDataArrayList.clear();
-                        businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
-
-                        bAdapter.setBusinessDataArrayList(businessDataArrayList);
-                        mListView.setAdapter(bAdapter);
-                        bAdapter.notifyDataSetChanged();
-                        //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
-                    }else if (flag.equals("business")){
-
-
                         customerDataArrayList.clear();
                         customerPathRef.child(Const.CustomerRequestPath).child(uid).addChildEventListener(cEventListener);
 
                         cAdapter.setCustomerDataArrayList(customerDataArrayList);
                         mListView.setAdapter(cAdapter);
                         cAdapter.notifyDataSetChanged();
+                        //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
+                    }else if (flag.equals("business")){
+
+
+                        businessDataArrayList.clear();
+                        businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
+
+                        bAdapter.setBusinessDataArrayList(businessDataArrayList);
+                        mListView.setAdapter(bAdapter);
+                        bAdapter.notifyDataSetChanged();
+
                     }
                 }
             }

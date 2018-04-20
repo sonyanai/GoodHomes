@@ -20,6 +20,7 @@ import java.util.ArrayList;
 class ViewHolders{
     ImageView companyImageView;
     TextView companyNameTextView;
+    TextView industryTextView;
 }
 
 public class BusinessListAdapter extends BaseAdapter {
@@ -38,6 +39,7 @@ public class BusinessListAdapter extends BaseAdapter {
 
         String mBitmapString = businessDataArrayList.get(position).getBitmapString();
         String mCompanyName = businessDataArrayList.get(position).getCompanyName();
+        String mIndustry = businessDataArrayList.get(position).getIndustry();
 
 
         ViewHolders holder;
@@ -48,6 +50,7 @@ public class BusinessListAdapter extends BaseAdapter {
             holder = new ViewHolders();
             holder.companyImageView = (ImageView) convertView.findViewById(R.id.companyImageView);
             holder.companyNameTextView = (TextView) convertView.findViewById(R.id.companyNameTextView);
+            holder.industryTextView = (TextView) convertView.findViewById(R.id.industryTextView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolders) convertView.getTag();
@@ -57,7 +60,9 @@ public class BusinessListAdapter extends BaseAdapter {
         if (mCompanyName != null) {
             holder.companyNameTextView.setText(mCompanyName);
             holder.companyNameTextView.setTextSize(16.0f);
-
+        }
+        if (mIndustry != null){
+            holder.industryTextView.setText(mIndustry);
         }
         if (mBitmapString != null){
             if (mBitmapString.length()>10) {

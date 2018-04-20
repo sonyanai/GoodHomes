@@ -54,6 +54,7 @@ public class BusinessAccountFragment extends Fragment {
     String Uid;
     String openName;
     String openedCompanyName;
+    String openedIndustry;
     DatabaseReference databaseReference;
     DatabaseReference userPathRef;
     DatabaseReference businessRequestPathRef;
@@ -102,6 +103,7 @@ public class BusinessAccountFragment extends Fragment {
                 prTextView.setText(post.getPr());
                 openedCompanyName = post.getCompanyName();
                 openedBitmapString = post.getBitmapString();
+                openedIndustry = post.getIndustry();
                 flagTextView.setText(post.getFlag());
 
                 if (post.getBitmapString() != null){
@@ -230,11 +232,12 @@ public class BusinessAccountFragment extends Fragment {
 
                 String mUid = user.getUid();
 
-                String key1 = businessRequestPathRef.child(Uid).push().getKey();
+                String key1 = businessRequestPathRef.child(mUid).push().getKey();
 
-                data1.put("mUid", mUid);
-                data1.put("name", openedCompanyName);
+                data1.put("mUid", Uid);
+                data1.put("companyName", openedCompanyName);
                 data1.put("bitmapString",openedBitmapString);
+                data1.put("industry",openedIndustry);
                 data1.put("key",key1);
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
@@ -242,17 +245,19 @@ public class BusinessAccountFragment extends Fragment {
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put(key1, data1);
 
-                customerRequestPathRef.child(Uid).updateChildren(childUpdates);
+                customerRequestPathRef.child(mUid).updateChildren(childUpdates);
 
 
                 //businessRequestPathRef.child(Uid).child(key).setValue(data1);
 
+
                 Map<String, String> data2 = new HashMap<String, String>();
 
-                String key2 = customerRequestPathRef.child(mUid).push().getKey();
+
+                String key2 = customerRequestPathRef.child(Uid).push().getKey();
 
 
-                data2.put("mUid", Uid);
+                data2.put("mUid", mUid);
                 data2.put("name", openName);
                 data2.put("place",place);
                 data2.put("key",key2);
@@ -261,7 +266,7 @@ public class BusinessAccountFragment extends Fragment {
                 Map<String, Object> childUpdate = new HashMap<>();
                 childUpdate.put(key2, data2);
 
-                businessRequestPathRef.child(mUid).updateChildren(childUpdate);
+                businessRequestPathRef.child(Uid).updateChildren(childUpdate);
 
 
             }
