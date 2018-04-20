@@ -161,8 +161,6 @@ public class LoginActivity extends AppCompatActivity {
                             String companyName="0";
                             String address="0";
                             String companyNumber="0";
-                            String sex="0";
-                            String age="0";
                             String bitmapString="0";
                             String totalEstimate="0";
                             String unwatchEstimate="0";
@@ -224,7 +222,17 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
                                 Map data = (Map) snapshot.getValue();
-                                saveName((String)data.get("name"));
+                                String newName = UserNameEditText.getText().toString();
+                                int i = cbRadioGroup.getCheckedRadioButtonId();
+                                int c = customerRadioButton.getId();
+                                int b = businessRadioButton.getId();
+                                String newFlag="0";
+                                if (i==c){
+                                    newFlag = "customer";
+                                }else if (i==b){
+                                    newFlag = "business";
+                                }
+                                saveName(newName,newFlag);
                             }
                             @Override
                             public void onCancelled(DatabaseError firebaseError) {
@@ -253,6 +261,17 @@ public class LoginActivity extends AppCompatActivity {
                     View view = findViewById(android.R.id.content);
                     Snackbar.make(view, "ログインに成功しました", Snackbar.LENGTH_LONG).show();
 
+                    String newName = UserNameEditText.getText().toString();
+                    int i = cbRadioGroup.getCheckedRadioButtonId();
+                    int c = customerRadioButton.getId();
+                    int b = businessRadioButton.getId();
+                    String newFlag="0";
+                    if (i==c){
+                        newFlag = "customer";
+                    }else if (i==b){
+                        newFlag = "business";
+                    }
+                    saveName(newName,newFlag);
 
                     if (flag!=null){
                         Bundle bundle = new Bundle();
@@ -401,11 +420,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void saveName(String name) {
+    private void saveName(String name,String flag) {
         // Preferenceに保存する
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Const.NameKEY, name);
+        editor.putString(Const.FlagKEY,flag);
         editor.commit();
     }
 
