@@ -6,6 +6,7 @@ public class BusinessListData {
     private String mUid;
     private String mCompanyName;
     private String mBitmapString;
+    private String mKey;
 
 
 
@@ -18,11 +19,15 @@ public class BusinessListData {
     public String getBitmapString(){
         return mBitmapString;
     }
+    public String getKey(){
+        return mKey;
+    }
 
-    public BusinessListData(String uid, String companyName, String bitmapString) {
+    public BusinessListData(String uid, String companyName, String bitmapString, String key) {
         mUid = uid;
         mCompanyName = companyName;
         mBitmapString = bitmapString;
+        mKey = key;
     }
 }
 

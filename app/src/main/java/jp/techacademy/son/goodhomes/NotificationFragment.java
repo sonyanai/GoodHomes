@@ -53,8 +53,9 @@ public class NotificationFragment extends Fragment {
             final String mUid = (String) map.get("mUid");
             final String companyName = (String) map.get("CompanyName");
             final String bitmapString = (String) map.get("BitmapString");
+            final String key = (String)map.get("key");
 
-            BusinessListData post = new BusinessListData(mUid, companyName,bitmapString);
+            BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,key);
             businessDataArrayList.add(post);
             bAdapter.setOkBusinessDataArrayList(businessDataArrayList);
             mListView.setAdapter(bAdapter);
