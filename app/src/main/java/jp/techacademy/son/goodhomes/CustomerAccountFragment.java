@@ -1,6 +1,8 @@
 package jp.techacademy.son.goodhomes;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,12 +194,16 @@ public class CustomerAccountFragment extends Fragment {
 
                 //add
 
-/*
+
                 Map<String, String> data1 = new HashMap<String, String>();
 
                 String mUid = user.getUid();
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String openedBitmapString = sp.getString(Const.BitmapStringKEY, "");
+                String openedCompanyName = sp.getString(Const.CompanyNameKEY, "");
+                String openedIndustry = sp.getString(Const.IndustryKEY,"");
 
-                String key1 = businessRequestPathRef.child(mUid).push().getKey();
+                String key1 = businessAcceptPathRef.child(mUid).push().getKey();
 
                 data1.put("mUid", Uid);
                 data1.put("companyName", openedCompanyName);
@@ -210,30 +216,25 @@ public class CustomerAccountFragment extends Fragment {
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put(key1, data1);
 
-                customerRequestPathRef.child(mUid).updateChildren(childUpdates);
+                customerAcceptPathRef.child(mUid).updateChildren(childUpdates);
 
 
-                //businessRequestPathRef.child(Uid).child(key).setValue(data1);
 
 
                 Map<String, String> data2 = new HashMap<String, String>();
-
-
-                String key2 = customerRequestPathRef.child(Uid).push().getKey();
-
+                String key2 = customerAcceptPathRef.child(Uid).push().getKey();
 
                 data2.put("mUid", mUid);
-                data2.put("name", openName);
-                data2.put("place",place);
+                data2.put("name", nameTextView.getText().toString());
+                data2.put("place",placeTextView.getText().toString());
                 data2.put("key",key2);
-                //customerRequestPathRef.child(mUid).child(key2).setValue(data2);
 
                 Map<String, Object> childUpdate = new HashMap<>();
                 childUpdate.put(key2, data2);
 
-                businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+                businessAcceptPathRef.child(Uid).updateChildren(childUpdate);
 
-*/
+
             }
         });
 
