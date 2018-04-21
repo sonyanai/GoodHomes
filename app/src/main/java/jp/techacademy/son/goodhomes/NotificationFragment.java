@@ -249,7 +249,10 @@ public class NotificationFragment extends Fragment {
                 if (flag.equals("customer")){
                     Bundle bundle = new Bundle();
                     bundle.putString("Uid", businessDataArrayList.get(position).getUid());
-                    bundle.putString("arFlag",arFlag);
+                    if (arFlag!=null){
+                        bundle.putString("arFlag",arFlag);
+                    }
+                    bundle.putString("key", businessDataArrayList.get(position).getKey());
 
                     BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
                     fragmentBusinessAccount.setArguments(bundle);
@@ -261,7 +264,11 @@ public class NotificationFragment extends Fragment {
                 }else{
                     Bundle bundle = new Bundle();
                     bundle.putString("Uid", customerDataArrayList.get(position).getUid());
-                    bundle.putString("arFlag",arFlag);
+                    if (arFlag!=null){
+                        bundle.putString("arFlag",arFlag);
+                    }
+                    bundle.putString("key", customerDataArrayList.get(position).getKey());
+
 
                     CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
                     fragmentCustomerAccount.setArguments(bundle);

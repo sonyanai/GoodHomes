@@ -50,7 +50,10 @@ public class CustomerAccountFragment extends Fragment {
     DatabaseReference databaseReference;
     DatabaseReference businessAcceptPathRef;
     DatabaseReference customerAcceptPathRef;
+    DatabaseReference businessRequestPathRef;
+    DatabaseReference customerRequestPathRef;
     DatabaseReference userPathRef;
+    String removeKey;
     private FirebaseUser user;
 
 
@@ -148,6 +151,7 @@ public class CustomerAccountFragment extends Fragment {
         if (bundle!=null){
             Uid = bundle.getString("Uid");
             String arFlag = bundle.getString("arFlag");
+            removeKey = bundle.getString("key");
             if (arFlag!=null){
                 if (!(arFlag.equals("request"))){
                     acceptButton.setVisibility(View.GONE);
@@ -161,6 +165,8 @@ public class CustomerAccountFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         businessAcceptPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessAcceptPath);
         customerAcceptPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerAcceptPath);
+        businessRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessRequestPath);
+        customerRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerRequestPath);
         userPathRef = databaseReference.child(Const.CustomerPath);
         userPathRef.addChildEventListener(mEventListener);
 
@@ -186,14 +192,15 @@ public class CustomerAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //remove,add
+                String uid = user.getUid();
 
-
-
+                //remove
+                //businessRequestPathRef.child(uid).child().removeEventListener(mEventListener);
+                //customerRequestPathRef.child(Uid).removeEventListener(mEventListener);
 
 
                 //add
-
+/*
 
                 Map<String, String> data1 = new HashMap<String, String>();
 
@@ -233,7 +240,7 @@ public class CustomerAccountFragment extends Fragment {
                 childUpdate.put(key2, data2);
 
                 businessAcceptPathRef.child(Uid).updateChildren(childUpdate);
-
+*/
 
             }
         });

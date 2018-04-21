@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +64,7 @@ public class BusinessAccountFragment extends Fragment {
     String place;
     TextView flagTextView;
     String openedBitmapString = "0";
-
+    public ArrayList<BusinessListData> businessDataArrayList;
 
 
     ChildEventListener mEventListener = new ChildEventListener() {
@@ -105,6 +106,7 @@ public class BusinessAccountFragment extends Fragment {
                 openedBitmapString = post.getBitmapString();
                 openedIndustry = post.getIndustry();
                 flagTextView.setText(post.getFlag());
+                Uid = mUid;
 
                 if (post.getBitmapString() != null){
                     if ((post.getBitmapString().length()>10)) {
@@ -115,11 +117,36 @@ public class BusinessAccountFragment extends Fragment {
                         }
                     }
                 }
-
-
-
             }
+        }
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        }
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 
+
+
+    ChildEventListener cEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+            HashMap map = (HashMap) dataSnapshot.getValue();
+            final String mUid = (String) map.get("mUid");
+            final String companyName = (String) map.get("companyName");
+            final String bitmapString = (String) map.get("bitmapString");
+            final String industry = (String)map.get("industry");
+            final String key = (String)map.get("key");
+
+            BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,industry,key);
+            businessDataArrayList.add(post);
 
         }
 
@@ -136,7 +163,6 @@ public class BusinessAccountFragment extends Fragment {
         public void onCancelled(DatabaseError databaseError) {
         }
     };
-
 
 
 
@@ -164,6 +190,7 @@ public class BusinessAccountFragment extends Fragment {
         prTextView = (TextView)v.findViewById(R.id.prTextView);
         businessChangeButton = (Button)v.findViewById(R.id.businessChangeButton);
         flagTextView = (TextView)v.findViewById(R.id.flagTextView);
+        businessDataArrayList = new ArrayList<BusinessListData>();
 
         return v;
     }
@@ -180,6 +207,7 @@ public class BusinessAccountFragment extends Fragment {
         String flag = sp.getString(Const.FlagKEY, "");
         openName = sp.getString(Const.NameKEY, "");
         place = sp.getString(Const.PlaceKEY,"");
+
 
         //notificationから開いたとき
         Bundle bundle = getArguments();
@@ -216,6 +244,10 @@ public class BusinessAccountFragment extends Fragment {
 
         userPathRef.addChildEventListener(mEventListener);
 
+        businessDataArrayList.clear();
+        String oid = user.getUid();
+        customerRequestPathRef.child(oid).addChildEventListener(cEventListener);
+
 
 
         view.findViewById(R.id.businessChangeButton).setOnClickListener(new View.OnClickListener() {
@@ -234,41 +266,92 @@ public class BusinessAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //会社の情報
-                Map<String, String> data1 = new HashMap<String, String>();
-                String mUid = user.getUid();
-                String key1 = customerRequestPathRef.child(mUid).push().getKey();
 
-                data1.put("mUid", Uid);
-                data1.put("companyName", openedCompanyName);
-                data1.put("bitmapString",openedBitmapString);
-                data1.put("industry",openedIndustry);
-                data1.put("key",key1);
-                //Uidは開いてるアカウントの会社のやつ
-                //mUidは開いてる人のやつ
+                String oid = user.getUid();
+                customerRequestPathRef.child(oid).addChildEventListener(cEventListener);
 
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put(key1, data1);
+                if (businessDataArrayList.size()==0){
+                    //会社の情報
+                    Map<String, String> data1 = new HashMap<String, String>();
+                    String mUid = user.getUid();
+                    String key1 = customerRequestPathRef.child(mUid).push().getKey();
 
-                customerRequestPathRef.child(mUid).updateChildren(childUpdates);
+                    data1.put("mUid", Uid);
+                    data1.put("companyName", openedCompanyName);
+                    data1.put("bitmapString",openedBitmapString);
+                    data1.put("industry",openedIndustry);
+                    data1.put("key",key1);
+                    //Uidは開いてるアカウントの会社のやつ
+                    //mUidは開いてる人のやつ
+
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put(key1, data1);
+
+                    customerRequestPathRef.child(mUid).updateChildren(childUpdates);
 
 
 
 
-                //客の情報
-                Map<String, String> data2 = new HashMap<String, String>();
-                String key2 = businessRequestPathRef.child(Uid).push().getKey();
+                    //客の情報
+                    Map<String, String> data2 = new HashMap<String, String>();
+                    String key2 = businessRequestPathRef.child(Uid).push().getKey();
 
-                data2.put("mUid", mUid);
-                data2.put("name", openName);
-                data2.put("place",place);
-                data2.put("key",key2);
+                    data2.put("mUid", mUid);
+                    data2.put("name", openName);
+                    data2.put("place",place);
+                    data2.put("key",key2);
 
-                Map<String, Object> childUpdate = new HashMap<>();
-                childUpdate.put(key2, data2);
+                    Map<String, Object> childUpdate = new HashMap<>();
+                    childUpdate.put(key2, data2);
 
-                businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+                    businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+                }
 
+                for (BusinessListData aaa : businessDataArrayList){
+                    if (aaa.getUid().equals(Uid)) {
+                        estimateButton.setVisibility(View.GONE);
+                    }else{
+
+                        //会社の情報
+                        Map<String, String> data1 = new HashMap<String, String>();
+                        String mUid = user.getUid();
+                        String key1 = customerRequestPathRef.child(mUid).push().getKey();
+
+                        data1.put("mUid", Uid);
+                        data1.put("companyName", openedCompanyName);
+                        data1.put("bitmapString",openedBitmapString);
+                        data1.put("industry",openedIndustry);
+                        data1.put("key",key1);
+                        //Uidは開いてるアカウントの会社のやつ
+                        //mUidは開いてる人のやつ
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put(key1, data1);
+
+                        customerRequestPathRef.child(mUid).updateChildren(childUpdates);
+
+
+
+
+                        //客の情報
+                        Map<String, String> data2 = new HashMap<String, String>();
+                        String key2 = businessRequestPathRef.child(Uid).push().getKey();
+
+                        data2.put("mUid", mUid);
+                        data2.put("name", openName);
+                        data2.put("place",place);
+                        data2.put("key",key2);
+
+                        Map<String, Object> childUpdate = new HashMap<>();
+                        childUpdate.put(key2, data2);
+
+                        businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+
+
+                    }
+                }
+
+                businessDataArrayList.clear();
 
             }
         });
