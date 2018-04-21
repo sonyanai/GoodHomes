@@ -100,9 +100,10 @@ public class NotificationFragment extends Fragment {
             final String mUid = (String) map.get("mUid");
             final String name = (String) map.get("name");
             final String place = (String) map.get("place");
-            final String key = (String)map.get("key");
+            final String key1 = (String)map.get("key1");
+            final String key2 = (String)map.get("key2");
 
-            CustomerListData post = new CustomerListData(mUid,name,place,key);
+            CustomerListData post = new CustomerListData(mUid,name,place,key1,key2);
 
             if (customerDataArrayList.size()==0){
                 customerDataArrayList.add(post);
@@ -267,7 +268,8 @@ public class NotificationFragment extends Fragment {
                     if (arFlag!=null){
                         bundle.putString("arFlag",arFlag);
                     }
-                    bundle.putString("key", customerDataArrayList.get(position).getKey());
+                    bundle.putString("key1", customerDataArrayList.get(position).getKey1());
+                    bundle.putString("key2", customerDataArrayList.get(position).getKey2());
 
 
                     CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();

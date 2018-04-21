@@ -265,22 +265,21 @@ public class BusinessAccountFragment extends Fragment {
         view.findViewById(R.id.estimateButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                String oid = user.getUid();
-                customerRequestPathRef.child(oid).addChildEventListener(cEventListener);
-
                 if (businessDataArrayList.size()==0){
+
+                    String mUid = user.getUid();
+
+
                     //会社の情報
                     Map<String, String> data1 = new HashMap<String, String>();
-                    String mUid = user.getUid();
+
                     String key1 = customerRequestPathRef.child(mUid).push().getKey();
 
                     data1.put("mUid", Uid);
                     data1.put("companyName", openedCompanyName);
                     data1.put("bitmapString",openedBitmapString);
                     data1.put("industry",openedIndustry);
-                    data1.put("key",key1);
+                    data1.put("key1",key1);
                     //Uidは開いてるアカウントの会社のやつ
                     //mUidは開いてる人のやつ
 
@@ -290,21 +289,26 @@ public class BusinessAccountFragment extends Fragment {
                     customerRequestPathRef.child(mUid).updateChildren(childUpdates);
 
 
-
-
-                    //客の情報
+//客の情報
                     Map<String, String> data2 = new HashMap<String, String>();
                     String key2 = businessRequestPathRef.child(Uid).push().getKey();
 
                     data2.put("mUid", mUid);
                     data2.put("name", openName);
                     data2.put("place",place);
-                    data2.put("key",key2);
+                    data2.put("key1",key1);
+                    data2.put("key2",key2);
 
                     Map<String, Object> childUpdate = new HashMap<>();
                     childUpdate.put(key2, data2);
 
                     businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+
+
+                    customerRequestPathRef.child(mUid).addChildEventListener(cEventListener);
+
+
+
                 }
 
                 for (BusinessListData aaa : businessDataArrayList){
@@ -312,16 +316,18 @@ public class BusinessAccountFragment extends Fragment {
                         estimateButton.setVisibility(View.GONE);
                     }else{
 
+
+
                         //会社の情報
-                        Map<String, String> data1 = new HashMap<String, String>();
                         String mUid = user.getUid();
+                        Map<String, String> data1 = new HashMap<String, String>();
                         String key1 = customerRequestPathRef.child(mUid).push().getKey();
 
                         data1.put("mUid", Uid);
                         data1.put("companyName", openedCompanyName);
                         data1.put("bitmapString",openedBitmapString);
                         data1.put("industry",openedIndustry);
-                        data1.put("key",key1);
+                        data1.put("key1",key1);
                         //Uidは開いてるアカウントの会社のやつ
                         //mUidは開いてる人のやつ
 
@@ -329,23 +335,22 @@ public class BusinessAccountFragment extends Fragment {
                         childUpdates.put(key1, data1);
 
                         customerRequestPathRef.child(mUid).updateChildren(childUpdates);
+//客の情報
 
-
-
-
-                        //客の情報
                         Map<String, String> data2 = new HashMap<String, String>();
                         String key2 = businessRequestPathRef.child(Uid).push().getKey();
 
                         data2.put("mUid", mUid);
                         data2.put("name", openName);
                         data2.put("place",place);
-                        data2.put("key",key2);
+                        data1.put("key1",key1);
+                        data2.put("key2",key2);
 
                         Map<String, Object> childUpdate = new HashMap<>();
                         childUpdate.put(key2, data2);
 
                         businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+
 
 
                     }

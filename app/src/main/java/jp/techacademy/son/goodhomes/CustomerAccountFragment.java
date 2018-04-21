@@ -53,7 +53,8 @@ public class CustomerAccountFragment extends Fragment {
     DatabaseReference businessRequestPathRef;
     DatabaseReference customerRequestPathRef;
     DatabaseReference userPathRef;
-    String removeKey;
+    String removeKey1;
+    String removeKey2;
     private FirebaseUser user;
 
 
@@ -96,6 +97,9 @@ public class CustomerAccountFragment extends Fragment {
                 sexTextView.setText(sex);
                 estimateTextView.setText(estimate);
                 requestTextView.setText(request);
+                if (post.getUid().equals(user.getUid())){
+                    acceptButton.setVisibility(View.GONE);
+                }
             }
 
 
@@ -151,7 +155,8 @@ public class CustomerAccountFragment extends Fragment {
         if (bundle!=null){
             Uid = bundle.getString("Uid");
             String arFlag = bundle.getString("arFlag");
-            removeKey = bundle.getString("key");
+            removeKey1 = bundle.getString("key1");
+            removeKey2 = bundle.getString("key2");
             if (arFlag!=null){
                 if (!(arFlag.equals("request"))){
                     acceptButton.setVisibility(View.GONE);
@@ -195,12 +200,12 @@ public class CustomerAccountFragment extends Fragment {
                 String uid = user.getUid();
 
                 //remove
-                //businessRequestPathRef.child(uid).child().removeEventListener(mEventListener);
-                //customerRequestPathRef.child(Uid).removeEventListener(mEventListener);
+                businessRequestPathRef.child(uid).child(removeKey2).setValue(null);
+                customerRequestPathRef.child(Uid).child(removeKey1).setValue(null);
 
 
                 //add
-/*
+
 
                 Map<String, String> data1 = new HashMap<String, String>();
 
@@ -240,7 +245,7 @@ public class CustomerAccountFragment extends Fragment {
                 childUpdate.put(key2, data2);
 
                 businessAcceptPathRef.child(Uid).updateChildren(childUpdate);
-*/
+
 
             }
         });
