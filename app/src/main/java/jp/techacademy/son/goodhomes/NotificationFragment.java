@@ -61,7 +61,15 @@ public class NotificationFragment extends Fragment {
             final String key = (String)map.get("key");
 
             BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,industry,key);
-            businessDataArrayList.add(post);
+
+            if (businessDataArrayList.size()==0){
+                businessDataArrayList.add(post);
+            }
+            for (BusinessListData aaa : businessDataArrayList){
+                if (!(aaa.getUid().equals(post.getUid()))){
+                    businessDataArrayList.add(post);
+                }
+            }
             bAdapter.setBusinessDataArrayList(businessDataArrayList);
             mListView.setAdapter(bAdapter);
             bAdapter.notifyDataSetChanged();
@@ -95,7 +103,15 @@ public class NotificationFragment extends Fragment {
             final String key = (String)map.get("key");
 
             CustomerListData post = new CustomerListData(mUid,name,place,key);
-            customerDataArrayList.add(post);
+
+            if (customerDataArrayList.size()==0){
+                customerDataArrayList.add(post);
+            }
+            for (CustomerListData aaa : customerDataArrayList){
+                if (!(aaa.getUid().equals(post.getUid()))){
+                    customerDataArrayList.add(post);
+                }
+            }
             cAdapter.setCustomerDataArrayList(customerDataArrayList);
             mListView.setAdapter(cAdapter);
             cAdapter.notifyDataSetChanged();
@@ -115,6 +131,7 @@ public class NotificationFragment extends Fragment {
         @Override
         public void onCancelled(DatabaseError databaseError) {
         }
+
     };
 
 
@@ -180,14 +197,14 @@ public class NotificationFragment extends Fragment {
                 String uid = user.getUid();
                 if (okListButton.isChecked() == true){
                     if (flag.equals("customer")){
-                        customerDataArrayList.clear();
+                        businessDataArrayList.clear();
                         customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
 
                         cAdapter.setCustomerDataArrayList(customerDataArrayList);
                         mListView.setAdapter(cAdapter);
                         cAdapter.notifyDataSetChanged();
                     }else if (flag.equals("business")){
-                        businessDataArrayList.clear();
+                        customerDataArrayList.clear();
                         businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
 
 
@@ -199,7 +216,7 @@ public class NotificationFragment extends Fragment {
                     }
                 }else{
                     if (flag.equals("customer")){
-                        customerDataArrayList.clear();
+                        businessDataArrayList.clear();
                         customerPathRef.child(Const.CustomerRequestPath).child(uid).addChildEventListener(cEventListener);
 
                         cAdapter.setCustomerDataArrayList(customerDataArrayList);
@@ -210,7 +227,7 @@ public class NotificationFragment extends Fragment {
                     }else if (flag.equals("business")){
 
 
-                        businessDataArrayList.clear();
+                        customerDataArrayList.clear();
                         businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
 
                         bAdapter.setBusinessDataArrayList(businessDataArrayList);
