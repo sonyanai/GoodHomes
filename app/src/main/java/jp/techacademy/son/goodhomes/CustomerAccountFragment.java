@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -45,6 +46,8 @@ public class CustomerAccountFragment extends Fragment {
     Button customerChangeButton;
     Button acceptButton;
     DatabaseReference databaseReference;
+    DatabaseReference businessAcceptPathRef;
+    DatabaseReference customerAcceptPathRef;
     DatabaseReference userPathRef;
     private FirebaseUser user;
 
@@ -154,12 +157,14 @@ public class CustomerAccountFragment extends Fragment {
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        businessAcceptPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessAcceptPath);
+        customerAcceptPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerAcceptPath);
         userPathRef = databaseReference.child(Const.CustomerPath);
         userPathRef.addChildEventListener(mEventListener);
 
 
 
-        //
+
 
 
 
@@ -173,6 +178,62 @@ public class CustomerAccountFragment extends Fragment {
                         .replace(R.id.container,fragmentCustomerLogin,CustomerLoginFragment.TAG)
                         .commit();
 
+            }
+        });
+        view.findViewById(R.id.acceptButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //remove,add
+
+
+
+
+
+                //add
+
+/*
+                Map<String, String> data1 = new HashMap<String, String>();
+
+                String mUid = user.getUid();
+
+                String key1 = businessRequestPathRef.child(mUid).push().getKey();
+
+                data1.put("mUid", Uid);
+                data1.put("companyName", openedCompanyName);
+                data1.put("bitmapString",openedBitmapString);
+                data1.put("industry",openedIndustry);
+                data1.put("key",key1);
+                //Uidは開いてるアカウントの会社のやつ
+                //mUidは開いてる人のやつ
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put(key1, data1);
+
+                customerRequestPathRef.child(mUid).updateChildren(childUpdates);
+
+
+                //businessRequestPathRef.child(Uid).child(key).setValue(data1);
+
+
+                Map<String, String> data2 = new HashMap<String, String>();
+
+
+                String key2 = customerRequestPathRef.child(Uid).push().getKey();
+
+
+                data2.put("mUid", mUid);
+                data2.put("name", openName);
+                data2.put("place",place);
+                data2.put("key",key2);
+                //customerRequestPathRef.child(mUid).child(key2).setValue(data2);
+
+                Map<String, Object> childUpdate = new HashMap<>();
+                childUpdate.put(key2, data2);
+
+                businessRequestPathRef.child(Uid).updateChildren(childUpdate);
+
+*/
             }
         });
 

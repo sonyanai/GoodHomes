@@ -234,11 +234,10 @@ public class BusinessAccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                //会社の情報
                 Map<String, String> data1 = new HashMap<String, String>();
-
                 String mUid = user.getUid();
-
-                String key1 = businessRequestPathRef.child(mUid).push().getKey();
+                String key1 = customerRequestPathRef.child(mUid).push().getKey();
 
                 data1.put("mUid", Uid);
                 data1.put("companyName", openedCompanyName);
@@ -254,20 +253,16 @@ public class BusinessAccountFragment extends Fragment {
                 customerRequestPathRef.child(mUid).updateChildren(childUpdates);
 
 
-                //businessRequestPathRef.child(Uid).child(key).setValue(data1);
 
 
+                //客の情報
                 Map<String, String> data2 = new HashMap<String, String>();
-
-
-                String key2 = customerRequestPathRef.child(Uid).push().getKey();
-
+                String key2 = businessRequestPathRef.child(Uid).push().getKey();
 
                 data2.put("mUid", mUid);
                 data2.put("name", openName);
                 data2.put("place",place);
                 data2.put("key",key2);
-                //customerRequestPathRef.child(mUid).child(key2).setValue(data2);
 
                 Map<String, Object> childUpdate = new HashMap<>();
                 childUpdate.put(key2, data2);
