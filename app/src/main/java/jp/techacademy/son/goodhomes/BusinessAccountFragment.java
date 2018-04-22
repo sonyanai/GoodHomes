@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -229,9 +230,7 @@ public class BusinessAccountFragment extends Fragment {
                 }
             }
             String mUid = user.getUid();
-            if (Uid.equals(mUid)){
-                estimateButton.setVisibility(View.GONE);
-            }else {
+            if (!(Uid.equals(mUid))){
                 businessChangeButton.setVisibility(View.GONE);
                 unwatchEstimateTextView.setVisibility(View.GONE);
                 thisPaymentTextView.setVisibility(View.GONE);
@@ -239,16 +238,14 @@ public class BusinessAccountFragment extends Fragment {
                 unwatchEstimateText.setVisibility(View.GONE);
                 thisPaymentText.setVisibility(View.GONE);
                 nextPaymentText.setVisibility(View.GONE);
-                if (flag.equals("business")){
-                    estimateButton.setVisibility(View.GONE);
-                }
             }
-
         }else {
             Uid = user.getUid();
             estimateButton.setVisibility(View.GONE);
         }
-
+        if (flag.equals("business")){
+            estimateButton.setVisibility(View.GONE);
+        }
 
         businessUserPathRef.addChildEventListener(mEventListener);
 
@@ -273,6 +270,7 @@ public class BusinessAccountFragment extends Fragment {
         view.findViewById(R.id.estimateButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                estimateButton.setVisibility(View.GONE);
                 if (businessDataArrayList.size()==0){
 
                     String mUid = user.getUid();
@@ -315,18 +313,32 @@ public class BusinessAccountFragment extends Fragment {
 
                     customerRequestPathRef.child(mUid).addChildEventListener(cEventListener);
 
-                    /*
 
 
-                    int newUnwatchEstimate = Integer.parseInt(unwatchEstimateText.getText().toString());
+
+                    int newUnwatchEstimate = Integer.parseInt(unwatchEstimateTextView.getText().toString());
                     newUnwatchEstimate += 1;
+                    String newUnwatchEstimates = String.valueOf(newUnwatchEstimate);
                     int newRequestEstimate = Integer.parseInt(requestEstimate);
                     newRequestEstimate += 1;
+                    String newRequestEstimates = String.valueOf(newRequestEstimate);
+
+                    businessUserPathRef.child(Uid).child("UnwatchEstimate").setValue(newUnwatchEstimates);
+                    customerUserPathRef.child(mUid).child("requestEstimate").setValue(newRequestEstimates);
 
 
-                    businessUserPathRef.child(Uid).setValue("unwatchEstimate",newUnwatchEstimate);
-                    customerUserPathRef.child(mUid).setValue("requestEstimate",newRequestEstimate);
-*/
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString(Const.UnwatchEstimateKEY, newUnwatchEstimates);
+                    editor.commit();
+
+
+
+
+
+
+
+
 
 
 
@@ -372,7 +384,15 @@ public class BusinessAccountFragment extends Fragment {
 
                         businessRequestPathRef.child(Uid).updateChildren(childUpdate);
 
+/*
+                        int newUnwatchEstimate = Integer.parseInt(unwatchEstimateTextView.getText().toString());
+                        newUnwatchEstimate += 1;
+                        String newUnwatchEstimates = String.valueOf(newUnwatchEstimate);
+                        int newRequestEstimate = Integer.parseInt(requestEstimate);
+                        newRequestEstimate += 1;
+                        String newRequestEstimates = String.valueOf(newRequestEstimate);
 
+*/
 
                     }
                 }

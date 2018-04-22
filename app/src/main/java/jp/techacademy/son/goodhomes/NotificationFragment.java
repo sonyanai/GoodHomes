@@ -177,14 +177,14 @@ public class NotificationFragment extends Fragment {
             yetListButton.setText("見積り申請中");
 
             businessDataArrayList.clear();
-            businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
+            customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
 
               }else if (flag.equals("business")){
             okListButton.setText("商談");
             yetListButton.setText("見積り申請");
 
             customerDataArrayList.clear();
-            customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
+            businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
         }
 
 
@@ -206,6 +206,7 @@ public class NotificationFragment extends Fragment {
                         cAdapter.notifyDataSetChanged();
                     }else if (flag.equals("business")){
                         customerDataArrayList.clear();
+
                         businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
 
 
@@ -231,9 +232,9 @@ public class NotificationFragment extends Fragment {
                         customerDataArrayList.clear();
                         businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
 
-                        bAdapter.setBusinessDataArrayList(businessDataArrayList);
-                        mListView.setAdapter(bAdapter);
-                        bAdapter.notifyDataSetChanged();
+                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
+                        mListView.setAdapter(cAdapter);
+                        cAdapter.notifyDataSetChanged();
 
                         arFlag ="request";
 
@@ -248,36 +249,42 @@ public class NotificationFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 if (flag.equals("customer")){
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Uid", businessDataArrayList.get(position).getUid());
-                    if (arFlag!=null){
-                        bundle.putString("arFlag",arFlag);
+                    if(businessDataArrayList.size() != 0){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Uid", businessDataArrayList.get(position).getUid());
+                        if (arFlag!=null){
+                            bundle.putString("arFlag",arFlag);
+                        }
+                        bundle.putString("key", businessDataArrayList.get(position).getKey());
+
+                        BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
+                        fragmentBusinessAccount.setArguments(bundle);
+
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.container,fragmentBusinessAccount,BusinessAccountFragment.TAG)
+                                .commit();
                     }
-                    bundle.putString("key", businessDataArrayList.get(position).getKey());
 
-                    BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
-                    fragmentBusinessAccount.setArguments(bundle);
-
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.container,fragmentBusinessAccount,BusinessAccountFragment.TAG)
-                            .commit();
 
                 }else{
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Uid", customerDataArrayList.get(position).getUid());
-                    if (arFlag!=null){
-                        bundle.putString("arFlag",arFlag);
+                    if (customerDataArrayList.size() != 0){
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Uid", customerDataArrayList.get(position).getUid());
+                        if (arFlag!=null){
+                            bundle.putString("arFlag",arFlag);
+                        }
+                        bundle.putString("key1", customerDataArrayList.get(position).getKey1());
+                        bundle.putString("key2", customerDataArrayList.get(position).getKey2());
+
+
+                        CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
+                        fragmentCustomerAccount.setArguments(bundle);
+
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.container,fragmentCustomerAccount,BusinessAccountFragment.TAG)
+                                .commit();
                     }
-                    bundle.putString("key1", customerDataArrayList.get(position).getKey1());
-                    bundle.putString("key2", customerDataArrayList.get(position).getKey2());
 
-
-                    CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
-                    fragmentCustomerAccount.setArguments(bundle);
-
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.container,fragmentCustomerAccount,BusinessAccountFragment.TAG)
-                            .commit();
 
                 }
 
