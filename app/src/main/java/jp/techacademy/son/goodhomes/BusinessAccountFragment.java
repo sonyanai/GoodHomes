@@ -147,6 +147,9 @@ public class BusinessAccountFragment extends Fragment {
 
             BusinessListData post = new BusinessListData(mUid, companyName,bitmapString,industry,key);
             businessDataArrayList.add(post);
+            if (post.getUid().equals(Uid)){
+                estimateButton.setVisibility(View.GONE);
+            }
 
         }
 
