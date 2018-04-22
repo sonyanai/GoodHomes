@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +74,8 @@ public class CustomerLoginFragment extends Fragment {
     RadioButton otherSexRadioButton;
     EditText requestEditText;
     Button accountButton;
+    TextView estimateTextView;
+    TextView requestEstimateTextView;
     String form = "";
     DatabaseReference databaseReference;
     DatabaseReference customerPathRef;
@@ -116,9 +121,10 @@ public class CustomerLoginFragment extends Fragment {
             final String age = (String) map.get("age");
             final String sex = (String) map.get("sex");
             final String estimate = (String) map.get("estimate");
+            final String requestEstimate = (String) map.get("requestEstimate");
             final String request = (String) map.get("request");
 
-            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,request);
+            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request);
 
 
 
@@ -133,6 +139,8 @@ public class CustomerLoginFragment extends Fragment {
                 PostalCodeEditText.setText(post.getPostalCode());
                 //築年数
                 ageBuildEditText.setText(post.getAgeBuild());
+                estimateTextView.setText(post.getEstimate());
+                requestEstimateTextView.setText(post.getRequestEstimate());
                 //ラジオグループこんな感じ
                 if (post.getForm().equals("一戸建て")){
                     detachedRadioButton.setChecked(true);
@@ -357,6 +365,8 @@ public class CustomerLoginFragment extends Fragment {
 
         requestEditText = (EditText)v.findViewById(R.id.requestEditText);
         accountButton = (Button)v.findViewById(R.id.accountButton);
+        estimateTextView = (TextView)v.findViewById(R.id.estimateTextView);
+        requestEstimateTextView = (TextView)v.findViewById(R.id.requestEstimateTextView);
 
 
         return v;
@@ -492,6 +502,10 @@ public class CustomerLoginFragment extends Fragment {
         //年齢任意
         String age = (String)ageSpinner.getSelectedItem();
 
+        String estimate = estimateTextView.getText().toString();
+        String requestEstimate = requestEstimateTextView.getText().toString();
+
+
 
         //性別任意
         int i = radioGroup.getCheckedRadioButtonId();
@@ -508,7 +522,6 @@ public class CustomerLoginFragment extends Fragment {
 
         //要望
         String request = requestEditText.getText().toString();
-        String estimate ="0";
 
         String mUid = user.getUid();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -530,12 +543,13 @@ public class CustomerLoginFragment extends Fragment {
         data.put("age" ,age);
         data.put("sex" ,sex);
         data.put("estimate" ,estimate);
+        data.put("requestEstimate" ,requestEstimate);
         data.put("request" ,request);
         data.put("flag" ,flag);
 
         customerPathRef.child(mUid).setValue(data);
 
-        savePersonalData(mUid,name,postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,request,flag);
+        savePersonalData(mUid,name,postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request,flag);
 
 
 
@@ -551,7 +565,7 @@ public class CustomerLoginFragment extends Fragment {
 
 
     }
-    private void savePersonalData(String mUid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String request,String flag) {
+    private void savePersonalData(String mUid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String requestEstimate,String request,String flag) {
         // Preferenceに保存する
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sp.edit();
@@ -569,6 +583,7 @@ public class CustomerLoginFragment extends Fragment {
         editor.putString(Const.AgeKEY, age);
         editor.putString(Const.SexKEY, sex);
         editor.putString(Const.EstimateKEY, estimate);
+        editor.putString(Const.RequestEstimateKEY, requestEstimate);
         editor.putString(Const.RequestKEY, request);
         editor.putString(Const.FlagKEY, flag);
 

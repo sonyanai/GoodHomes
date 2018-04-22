@@ -43,6 +43,7 @@ public class CustomerAccountFragment extends Fragment {
     TextView ageTextView;
     TextView sexTextView;
     TextView estimateTextView;
+    TextView requestEstimateTextView;
     TextView requestTextView;
     String Uid;
     Button customerChangeButton;
@@ -78,9 +79,10 @@ public class CustomerAccountFragment extends Fragment {
             final String age = (String) map.get("age");
             final String sex = (String) map.get("sex");
             final String estimate = (String) map.get("estimate");
+            final String requestEstimate = (String) map.get("requestEstimate");
             final String request = (String) map.get("request");
 
-            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,request);
+            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request);
 
             if (post.getUid().equals(Uid)){
                 nameTextView.setText(name);
@@ -96,6 +98,7 @@ public class CustomerAccountFragment extends Fragment {
                 ageTextView.setText(age);
                 sexTextView.setText(sex);
                 estimateTextView.setText(estimate);
+                requestEstimateTextView.setText(requestEstimate);
                 requestTextView.setText(request);
                 if (post.getUid().equals(user.getUid())){
                     acceptButton.setVisibility(View.GONE);
@@ -140,6 +143,7 @@ public class CustomerAccountFragment extends Fragment {
         ageTextView = (TextView)v.findViewById(R.id.ageTextView);
         sexTextView = (TextView)v.findViewById(R.id.sexTextView);
         estimateTextView = (TextView)v.findViewById(R.id.estimateTextView);
+        requestEstimateTextView = (TextView)v.findViewById(R.id.requestEstimateTextView);
         requestTextView = (TextView)v.findViewById(R.id.requestTextView);
         customerChangeButton = (Button)v.findViewById(R.id.customerChangeButton);
         acceptButton = (Button)v.findViewById(R.id.acceptButton);

@@ -56,8 +56,10 @@ public class BusinessAccountFragment extends Fragment {
     String openName;
     String openedCompanyName;
     String openedIndustry;
+    String requestEstimate;
     DatabaseReference databaseReference;
-    DatabaseReference userPathRef;
+    DatabaseReference businessUserPathRef;
+    DatabaseReference customerUserPathRef;
     DatabaseReference businessRequestPathRef;
     DatabaseReference customerRequestPathRef;
     private FirebaseUser user;
@@ -204,12 +206,15 @@ public class BusinessAccountFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         businessRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessRequestPath);
         customerRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerRequestPath);
-        userPathRef = databaseReference.child(Const.BusinessPath);
+        businessUserPathRef = databaseReference.child(Const.BusinessPath);
+        customerUserPathRef = databaseReference.child(Const.CustomerPath);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String flag = sp.getString(Const.FlagKEY, "");
         openName = sp.getString(Const.NameKEY, "");
         place = sp.getString(Const.PlaceKEY,"");
+        requestEstimate = sp.getString(Const.RequestEstimateKEY,"");
+
 
 
         //notificationから開いたとき
@@ -245,7 +250,7 @@ public class BusinessAccountFragment extends Fragment {
         }
 
 
-        userPathRef.addChildEventListener(mEventListener);
+        businessUserPathRef.addChildEventListener(mEventListener);
 
         businessDataArrayList.clear();
         String oid = user.getUid();
@@ -309,6 +314,19 @@ public class BusinessAccountFragment extends Fragment {
 
 
                     customerRequestPathRef.child(mUid).addChildEventListener(cEventListener);
+
+                    /*
+
+
+                    int newUnwatchEstimate = Integer.parseInt(unwatchEstimateText.getText().toString());
+                    newUnwatchEstimate += 1;
+                    int newRequestEstimate = Integer.parseInt(requestEstimate);
+                    newRequestEstimate += 1;
+
+
+                    businessUserPathRef.child(Uid).setValue("unwatchEstimate",newUnwatchEstimate);
+                    customerUserPathRef.child(mUid).setValue("requestEstimate",newRequestEstimate);
+*/
 
 
 

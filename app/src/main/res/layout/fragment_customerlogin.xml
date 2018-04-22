@@ -324,6 +324,16 @@
             android:hint="「湯舟を大きくしたい」など、どんなことでもいいです。"
             android:id="@+id/requestEditText"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/estimateTextView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/requestEstimateTextView"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -40,20 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText UserNameEditText;
 
     String name;
-    String postalCode;
-    String ageBuild;
-    String form;
-    String otherForm;
-    String pro;
-    String otherPro;
-    String place;
-    String otherPlace;
-    String budget;
-    String age;
-    String sex;
-    String estimate;
     String flag;
-    String request;
     RadioGroup cbRadioGroup;
     RadioButton customerRadioButton;
     RadioButton businessRadioButton;
@@ -100,19 +87,20 @@ public class LoginActivity extends AppCompatActivity {
                         if (flag.equals("customer")){
                             String mUid = user.getUid();
 
-                            postalCode ="0";
-                            ageBuild ="0";
-                            form ="0";
-                            otherForm ="0";
-                            pro ="0";
-                            otherPro ="0";
-                            place ="0";
-                            otherPlace ="0";
-                            budget ="0";
-                            age ="0";
-                            sex ="0";
-                            estimate ="0";
-                            request ="0";
+                            String postalCode ="0";
+                            String ageBuild ="0";
+                            String form ="0";
+                            String otherForm ="0";
+                            String pro ="0";
+                            String otherPro ="0";
+                            String place ="0";
+                            String otherPlace ="0";
+                            String budget ="0";
+                            String age ="0";
+                            String sex ="0";
+                            String estimate ="0";
+                            String requestEstimate ="0";
+                            String request ="0";
 
 
 
@@ -133,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                             data.put("age" ,age);
                             data.put("sex" ,sex);
                             data.put("estimate" ,estimate);
+                            data.put("requestEstimate",requestEstimate);
                             data.put("request",request);
                             data.put("flag" ,flag);
 
@@ -147,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             // 表示名をPrefarenceに保存する
-                            savePersonalData(mUid,name,postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,request,flag);
+                            savePersonalData(mUid,name,postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request,flag);
 
 
                             // アカウント作成の時は表示名をFirebaseに保存する
@@ -429,7 +418,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    private void savePersonalData(String mUid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String request,String flag) {
+    private void savePersonalData(String mUid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String requestEstimate,String request,String flag) {
         // Preferenceに保存する
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
@@ -447,6 +436,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(Const.AgeKEY, age);
         editor.putString(Const.SexKEY, sex);
         editor.putString(Const.EstimateKEY, estimate);
+        editor.putString(Const.RequestEstimateKEY,requestEstimate);
         editor.putString(Const.RequestKEY, request);
         editor.putString(Const.FlagKEY, flag);
 
