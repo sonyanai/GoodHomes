@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,10 +54,61 @@ public class CustomerAccountFragment extends Fragment {
     DatabaseReference customerAcceptPathRef;
     DatabaseReference businessRequestPathRef;
     DatabaseReference customerRequestPathRef;
-    DatabaseReference userPathRef;
+    DatabaseReference customerUserPathRef;
+    DatabaseReference businessUserPathRef;
     String removeKey1;
     String removeKey2;
     private FirebaseUser user;
+    ArrayList<BusinessData> businessDataArrayList;
+    String TotalEstimate;
+    String UnwatchEstimate;
+
+
+
+    ChildEventListener bEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+            HashMap map = (HashMap) dataSnapshot.getValue();
+            final String mUid = (String) map.get("mUid");
+            final String companyName = (String) map.get("CompanyName");
+            final String address = (String) map.get("Address");
+            final String companyNumber = (String) map.get("CompanyNumber");
+            final String name = (String) map.get("name");
+            final String bitmapString = (String) map.get("BitmapString");
+            final String totalEstimate = (String) map.get("TotalEstimate");
+            final String unwatchEstimate = (String) map.get("UnwatchEstimate");
+            final String thisPayment = (String) map.get("ThisPayment");
+            final String nextPayment = (String) map.get("NextPayment");
+            final String totalEvaluation = (String) map.get("TotalEvaluation");
+            final String moneyEvaluation = (String) map.get("MoneyEvaluation");
+            final String industry = (String)map.get("Industry");
+            final String pr = (String) map.get("Pr");
+            final String flag = (String) map.get("Flag");
+
+            BusinessData post = new BusinessData(mUid, companyName,address,companyNumber,name,bitmapString,totalEstimate,unwatchEstimate,thisPayment,nextPayment,totalEvaluation,moneyEvaluation,industry,pr,flag);
+            businessDataArrayList.add(post);
+
+            if (post.getUid().equals(user.getUid())){
+                TotalEstimate = totalEstimate;
+                UnwatchEstimate = unwatchEstimate;
+            }
+
+
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        }
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 
 
 
@@ -147,6 +199,7 @@ public class CustomerAccountFragment extends Fragment {
         requestTextView = (TextView)v.findViewById(R.id.requestTextView);
         customerChangeButton = (Button)v.findViewById(R.id.customerChangeButton);
         acceptButton = (Button)v.findViewById(R.id.acceptButton);
+        businessDataArrayList = new ArrayList<BusinessData>();
         return v;
     }
 
@@ -176,8 +229,11 @@ public class CustomerAccountFragment extends Fragment {
         customerAcceptPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerAcceptPath);
         businessRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.BusinessPath).child(Const.BusinessRequestPath);
         customerRequestPathRef = databaseReference.child(Const.RequestEstimatePath).child(Const.CustomerPath).child(Const.CustomerRequestPath);
-        userPathRef = databaseReference.child(Const.CustomerPath);
-        userPathRef.addChildEventListener(mEventListener);
+        customerUserPathRef = databaseReference.child(Const.CustomerPath);
+        customerUserPathRef.addChildEventListener(mEventListener);
+        businessUserPathRef = databaseReference.child(Const.BusinessPath);
+        businessUserPathRef.addChildEventListener(bEventListener);
+
 
 
 
@@ -211,14 +267,24 @@ public class CustomerAccountFragment extends Fragment {
                 customerRequestPathRef.child(Uid).child(removeKey1).setValue(null);
 
                 //カウントの処理
-/*
-                int newUnwatchEstimate = Integer.parseInt(unwatchEstimateTextView.getText().toString());
-                newUnwatchEstimate += 1;
+                int newUnwatchEstimate = Integer.parseInt(UnwatchEstimate);
+                newUnwatchEstimate -= 1;
                 String newUnwatchEstimates = String.valueOf(newUnwatchEstimate);
-                int newRequestEstimate = Integer.parseInt(requestEstimate);
-                newRequestEstimate += 1;
+                int newTotalEstimate = Integer.parseInt(TotalEstimate);
+                newTotalEstimate += 1;
+                String newTotalEstimates = String.valueOf(newTotalEstimate);
+                int newRequestEstimate = Integer.parseInt(requestEstimateTextView.getText().toString());
+                newRequestEstimate -= 1;
                 String newRequestEstimates = String.valueOf(newRequestEstimate);
-*/
+                int newEstimate = Integer.parseInt(estimateTextView.getText().toString());
+                newEstimate += 1;
+                String newEstimates = String.valueOf(newEstimate);
+
+                businessUserPathRef.child(uid).child("UnwatchEstimate").setValue(newUnwatchEstimates);
+                businessUserPathRef.child(uid).child("TotalEstimate").setValue(newTotalEstimates);
+                customerUserPathRef.child(Uid).child("requestEstimate").setValue(newRequestEstimates);
+                customerUserPathRef.child(Uid).child("estimate").setValue(newEstimates);
+
 
                 //add
                 Map<String, String> data1 = new HashMap<String, String>();
