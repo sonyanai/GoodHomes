@@ -123,8 +123,9 @@ public class CustomerLoginFragment extends Fragment {
             final String estimate = (String) map.get("estimate");
             final String requestEstimate = (String) map.get("requestEstimate");
             final String request = (String) map.get("request");
+            final String flag = (String) map.get("flag");
 
-            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request);
+            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request,flag);
 
 
 

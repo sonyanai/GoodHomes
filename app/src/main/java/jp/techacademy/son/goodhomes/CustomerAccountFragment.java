@@ -46,6 +46,7 @@ public class CustomerAccountFragment extends Fragment {
     TextView estimateTextView;
     TextView requestEstimateTextView;
     TextView requestTextView;
+    TextView flagTextView;
     String Uid;
     Button customerChangeButton;
     Button acceptButton;
@@ -62,6 +63,20 @@ public class CustomerAccountFragment extends Fragment {
     ArrayList<BusinessData> businessDataArrayList;
     String TotalEstimate;
     String UnwatchEstimate;
+    String myCompanyName;
+    String myAddress;
+    String myCompanyNumber;
+    String myBitmapString;
+    String myTotalEstimate;
+    String myUnwatchEstimate;
+    String myThisPayment;
+    String myNextPayment;
+    String myTotalEvaluation;
+    String myMoneyEvaluation;
+    String myIndustry;
+    String myPr;
+    String myName;
+    String myFlag;
 
 
 
@@ -133,8 +148,9 @@ public class CustomerAccountFragment extends Fragment {
             final String estimate = (String) map.get("estimate");
             final String requestEstimate = (String) map.get("requestEstimate");
             final String request = (String) map.get("request");
+            final String flag = (String) map.get("flag");
 
-            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request);
+            CustomerData post = new CustomerData(mUid, name, postalCode,ageBuild,form,otherForm,pro,otherPro,place,otherPlace,budget,age,sex,estimate,requestEstimate,request,flag);
 
             if (post.getUid().equals(Uid)){
                 nameTextView.setText(name);
@@ -152,6 +168,7 @@ public class CustomerAccountFragment extends Fragment {
                 estimateTextView.setText(estimate);
                 requestEstimateTextView.setText(requestEstimate);
                 requestTextView.setText(request);
+                flagTextView.setText(flag);
                 if (post.getUid().equals(user.getUid())){
                     acceptButton.setVisibility(View.GONE);
                 }
@@ -197,6 +214,7 @@ public class CustomerAccountFragment extends Fragment {
         estimateTextView = (TextView)v.findViewById(R.id.estimateTextView);
         requestEstimateTextView = (TextView)v.findViewById(R.id.requestEstimateTextView);
         requestTextView = (TextView)v.findViewById(R.id.requestTextView);
+        flagTextView = (TextView)v.findViewById(R.id.flagTextView);
         customerChangeButton = (Button)v.findViewById(R.id.customerChangeButton);
         acceptButton = (Button)v.findViewById(R.id.acceptButton);
         businessDataArrayList = new ArrayList<BusinessData>();
@@ -212,8 +230,24 @@ public class CustomerAccountFragment extends Fragment {
         if (bundle!=null){
             Uid = bundle.getString("Uid");
             String arFlag = bundle.getString("arFlag");
-            removeKey1 = bundle.getString("key1");
-            removeKey2 = bundle.getString("key2");
+            //removeKey1 = bundle.getString("key1");
+            //removeKey2 = bundle.getString("key2");
+            myCompanyName = bundle.getString("myCompanyName");
+            myAddress = bundle.getString("myAddress");
+            myCompanyNumber = bundle.getString("myCompanyNumber");
+            myName = bundle.getString("myName");
+            myBitmapString = bundle.getString("myBitmapString");
+            myTotalEstimate = bundle.getString("myTotalEstimate");
+            myUnwatchEstimate = bundle.getString("myUnwatchEstimate");
+            myThisPayment = bundle.getString("myThisPayment");
+            myNextPayment = bundle.getString("myNextPayment");
+            myTotalEvaluation = bundle.getString("myTotalEvaluation");
+            myMoneyEvaluation = bundle.getString("myMoneyEvaluation");
+            myIndustry = bundle.getString("myIndustry");
+            myPr = bundle.getString("myPr");
+            myFlag = bundle.getString("myFlag");
+
+
             if (arFlag!=null){
                 if (!(arFlag.equals("request"))){
                     acceptButton.setVisibility(View.GONE);
@@ -263,8 +297,8 @@ public class CustomerAccountFragment extends Fragment {
                 String uid = user.getUid();
 
                 //remove
-                businessRequestPathRef.child(uid).child(removeKey2).setValue(null);
-                customerRequestPathRef.child(Uid).child(removeKey1).setValue(null);
+                businessRequestPathRef.child(uid).child(Uid).setValue(null);
+                customerRequestPathRef.child(Uid).child(uid).setValue(null);
 
                 //カウントの処理
                 int newUnwatchEstimate = Integer.parseInt(UnwatchEstimate);
@@ -290,23 +324,34 @@ public class CustomerAccountFragment extends Fragment {
                 Map<String, String> data1 = new HashMap<String, String>();
 
                 String mUid = user.getUid();
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String openedBitmapString = sp.getString(Const.BitmapStringKEY, "");
-                String openedCompanyName = sp.getString(Const.CompanyNameKEY, "");
-                String openedIndustry = sp.getString(Const.IndustryKEY,"");
+//                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//                String openedBitmapString = sp.getString(Const.BitmapStringKEY, "");
+//                String openedCompanyName = sp.getString(Const.CompanyNameKEY, "");
+//                String openedIndustry = sp.getString(Const.IndustryKEY,"");
 
-                String key1 = businessAcceptPathRef.child(Uid).push().getKey();
+                //String key1 = businessAcceptPathRef.child(Uid).push().getKey();
 
                 data1.put("mUid", mUid);
-                data1.put("companyName", openedCompanyName);
-                data1.put("bitmapString",openedBitmapString);
-                data1.put("industry",openedIndustry);
-                data1.put("key",key1);
+                data1.put("CompanyName", myCompanyName);
+                data1.put("Address",myAddress);
+                data1.put("CompanyNumber",myCompanyNumber);
+                data1.put("name",myName);
+                data1.put("BitmapString",myBitmapString);
+                data1.put("TotalEstimate",myTotalEstimate);
+                data1.put("UnwatchEstimate",myUnwatchEstimate);
+                data1.put("ThisPayment",myThisPayment);
+                data1.put("NextPayment",myNextPayment);
+                data1.put("TotalEvaluation",myTotalEvaluation);
+                data1.put("MoneyEvaluation",myMoneyEvaluation);
+                data1.put("Industry",myIndustry);
+                data1.put("Pr",myPr);
+                data1.put("flag",myFlag);
+                //data1.put("key",key1);
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
 
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put(key1, data1);
+                childUpdates.put(Uid, data1);
 
                 customerAcceptPathRef.child(Uid).updateChildren(childUpdates);
 
@@ -314,15 +359,29 @@ public class CustomerAccountFragment extends Fragment {
 
 
                 Map<String, String> data2 = new HashMap<String, String>();
-                String key2 = customerAcceptPathRef.child(mUid).push().getKey();
+                //String key2 = customerAcceptPathRef.child(mUid).push().getKey();
 
                 data2.put("mUid", Uid);
-                data2.put("name", nameTextView.getText().toString());
-                data2.put("place",placeTextView.getText().toString());
-                data2.put("key",key2);
+                data2.put("UserName", nameTextView.getText().toString());
+                data2.put("postalCode", postalCodeTextView.getText().toString());
+                data2.put("ageBuild", ageBuildTextView.getText().toString());
+                data2.put("form", formTextView.getText().toString());
+                data2.put("otherForm", otherFormTextView.getText().toString());
+                data2.put("pro", propertyTextView.getText().toString());
+                data2.put("otherPro", otherPropertyTextView.getText().toString());
+                data2.put("place", placeTextView.getText().toString());
+                data2.put("otherPlace", otherPlaceTextView.getText().toString());
+                data2.put("budget", budgetTextView.getText().toString());
+                data2.put("age", ageTextView.getText().toString());
+                data2.put("sex", sexTextView.getText().toString());
+                data2.put("estimate", estimateTextView.getText().toString());
+                data2.put("requestEstimate", requestEstimateTextView.getText().toString());
+                data2.put("request", requestTextView.getText().toString());
+                data2.put("flag", flagTextView.getText().toString());
+                //data2.put("key",key2);
 
                 Map<String, Object> childUpdate = new HashMap<>();
-                childUpdate.put(key2, data2);
+                childUpdate.put(mUid, data2);
 
                 businessAcceptPathRef.child(mUid).updateChildren(childUpdate);
 

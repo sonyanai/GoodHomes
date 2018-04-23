@@ -23,12 +23,12 @@ class ViewHoldersc{
     TextView placeTextView;
 }
 
-public class CustomerListAdapter extends BaseAdapter {
+public class CustomerDataArrayListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private int layoutId;
-    private ArrayList<CustomerListData> customerDataArrayList = new ArrayList<CustomerListData>();
+    private ArrayList<CustomerData> customerDataArrayList = new ArrayList<CustomerData>();
 
-    public CustomerListAdapter(Context context, int layoutId) {
+    public CustomerDataArrayListAdapter(Context context, int layoutId) {
         super();
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layoutId = layoutId;
@@ -86,7 +86,7 @@ public class CustomerListAdapter extends BaseAdapter {
         //return businessDataArrayList.get(position).getId();
     }
 
-    public void setCustomerDataArrayList(ArrayList<CustomerListData> customerDataArrayList) {
+    public void setCustomerDataArrayList(ArrayList<CustomerData> customerDataArrayList) {
         this.customerDataArrayList = customerDataArrayList;
     }
 }

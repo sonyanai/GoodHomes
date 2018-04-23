@@ -87,9 +87,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        ListFragment fragmentList = new ListFragment();
-        transaction.add(R.id.container, fragmentList);
-        transaction.commit();
+
+            ListFragment fragmentList = new ListFragment();
+            transaction.add(R.id.container, fragmentList);
+            transaction.commit();
+
+
+
 
 
     }

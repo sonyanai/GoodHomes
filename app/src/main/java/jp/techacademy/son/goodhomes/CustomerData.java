@@ -22,6 +22,7 @@ public class CustomerData {
     private String mEstimate;
     private String mRequestEstimate;
     private String mRequest;
+    private String mFlag;
 
 
 
@@ -75,8 +76,11 @@ public class CustomerData {
     public String getRequest(){
         return mRequest;
     }
+    public String getFlag(){
+        return mFlag;
+    }
 
-    public CustomerData(String uid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String requestEstimate,String request) {
+    public CustomerData(String uid,String name,String postalCode,String ageBuild,String form,String otherForm,String pro,String otherPro,String place,String otherPlace,String budget,String age,String sex,String estimate,String requestEstimate,String request,String flag) {
         mUid = uid;
         mName = name;
         mPostalCode = postalCode;
@@ -93,6 +97,7 @@ public class CustomerData {
         mEstimate = estimate;
         mRequestEstimate = requestEstimate;
         mRequest = request;
+        mFlag = flag;
     }
 }
 

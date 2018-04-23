@@ -67,10 +67,10 @@ public class BusinessDataArrayListAdapter extends BaseAdapter {
 
         }
         if (mTotalEvaluation != null) {
-            holder.totalEvaluationTextView.setText("総合評価　" + mTotalEvaluation);
+            holder.totalEvaluationTextView.setText("総合評価  " + mTotalEvaluation);
         }
         if (mMoneyEvaluation != null) {
-            holder.moneyEvaluationTextView.setText("平均見積り誤差　" + mMoneyEvaluation);
+            holder.moneyEvaluationTextView.setText("平均見積り誤差  " + mMoneyEvaluation);
         }
         if (mBitmapString != null){
             if (mBitmapString.length()>10) {
