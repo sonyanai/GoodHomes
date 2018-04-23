@@ -230,8 +230,6 @@ public class CustomerAccountFragment extends Fragment {
         if (bundle!=null){
             Uid = bundle.getString("Uid");
             String arFlag = bundle.getString("arFlag");
-            //removeKey1 = bundle.getString("key1");
-            //removeKey2 = bundle.getString("key2");
             myCompanyName = bundle.getString("myCompanyName");
             myAddress = bundle.getString("myAddress");
             myCompanyNumber = bundle.getString("myCompanyNumber");
@@ -267,11 +265,6 @@ public class CustomerAccountFragment extends Fragment {
         customerUserPathRef.addChildEventListener(mEventListener);
         businessUserPathRef = databaseReference.child(Const.BusinessPath);
         businessUserPathRef.addChildEventListener(bEventListener);
-
-
-
-
-
 
 
 
@@ -324,12 +317,6 @@ public class CustomerAccountFragment extends Fragment {
                 Map<String, String> data1 = new HashMap<String, String>();
 
                 String mUid = user.getUid();
-//                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//                String openedBitmapString = sp.getString(Const.BitmapStringKEY, "");
-//                String openedCompanyName = sp.getString(Const.CompanyNameKEY, "");
-//                String openedIndustry = sp.getString(Const.IndustryKEY,"");
-
-                //String key1 = businessAcceptPathRef.child(Uid).push().getKey();
 
                 data1.put("mUid", mUid);
                 data1.put("CompanyName", myCompanyName);
@@ -346,7 +333,6 @@ public class CustomerAccountFragment extends Fragment {
                 data1.put("Industry",myIndustry);
                 data1.put("Pr",myPr);
                 data1.put("flag",myFlag);
-                //data1.put("key",key1);
                 //Uidは開いてるアカウントの会社のやつ
                 //mUidは開いてる人のやつ
 
@@ -359,7 +345,6 @@ public class CustomerAccountFragment extends Fragment {
 
 
                 Map<String, String> data2 = new HashMap<String, String>();
-                //String key2 = customerAcceptPathRef.child(mUid).push().getKey();
 
                 data2.put("mUid", Uid);
                 data2.put("UserName", nameTextView.getText().toString());
@@ -378,7 +363,6 @@ public class CustomerAccountFragment extends Fragment {
                 data2.put("requestEstimate", requestEstimateTextView.getText().toString());
                 data2.put("request", requestTextView.getText().toString());
                 data2.put("flag", flagTextView.getText().toString());
-                //data2.put("key",key2);
 
                 Map<String, Object> childUpdate = new HashMap<>();
                 childUpdate.put(mUid, data2);

@@ -98,11 +98,7 @@ public class ListFragment extends Fragment {
                 myRequestEstimate = post.getRequestEstimate();
                 myRequest = post.getRequest();
                 myFlag = post.getFlag();
-
             }
-
-
-
 
         }
 
@@ -250,7 +246,6 @@ public class ListFragment extends Fragment {
                 bundle.putString("myRequest",myRequest);
                 bundle.putString("myFlag",myFlag);
 
-                //bundle.putString("key", businessDataArrayList.get(position).getKey());
 
                 BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
                 fragmentBusinessAccount.setArguments(bundle);
