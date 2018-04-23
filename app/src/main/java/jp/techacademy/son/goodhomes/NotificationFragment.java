@@ -34,7 +34,7 @@ public class NotificationFragment extends Fragment {
     RadioGroup listRadioGroup;
     RadioButton okListButton;
     RadioButton yetListButton;
-    String flag;
+    String flags;
     DatabaseReference databaseReference;
     DatabaseReference businessPathRef;
     DatabaseReference customerPathRef;
@@ -45,6 +45,7 @@ public class NotificationFragment extends Fragment {
     ListView mListView;
     FirebaseUser user;
     public ArrayList<BusinessData> businessDataArrayList;
+    public ArrayList<BusinessData> nothingBusinessDataArrayList;
     public ArrayList<CustomerData> customerDataArrayList;
     //acceptかrequestかrequestのときはcustomeraccountに許可ボタン表示
     String arFlag;
@@ -77,6 +78,7 @@ public class NotificationFragment extends Fragment {
     String myMoneyEvaluation;
     String myIndustry;
     String myPr;
+    String Uid;
 
 
 
@@ -113,8 +115,9 @@ public class NotificationFragment extends Fragment {
                     }
                 }
             }
+            Uid = user.getUid();
 
-            if (post.getUid().equals(user.getUid())){
+            if (post.getUid().equals(Uid)){
                 myUid = post.getUid();
                 myCompanyName = post.getCompanyName();
                 myAddress = post.getAddress();
@@ -130,12 +133,16 @@ public class NotificationFragment extends Fragment {
                 myIndustry = post.getIndustry();
                 myPr = post.getPr();
                 myFlag = post.getFlag();
-            }else {
-                bAdapter.setBusinessDataArrayList(businessDataArrayList);
-                mListView.setAdapter(bAdapter);
-                bAdapter.notifyDataSetChanged();
             }
 
+
+
+            if (flags.equals("business")){
+                businessDataArrayList.clear();
+            }
+            bAdapter.setBusinessDataArrayList(businessDataArrayList);
+            mListView.setAdapter(bAdapter);
+            bAdapter.notifyDataSetChanged();
 
 
 
@@ -191,7 +198,7 @@ public class NotificationFragment extends Fragment {
                 }
             }
 
-            if (post.getUid().equals(user.getUid())){
+            if (post.getUid().equals(Uid)){
                 myUid = post.getUid();
                 myName = post.getName();
                 myPostalCode = post.getPostalCode();
@@ -210,13 +217,14 @@ public class NotificationFragment extends Fragment {
                 myRequest = post.getRequest();
                 myFlag = post.getFlag();
 
-            }else {
-                cAdapter.setCustomerDataArrayList(customerDataArrayList);
-                mListView.setAdapter(cAdapter);
-                cAdapter.notifyDataSetChanged();
             }
 
-
+            if (flags.equals("customer")){
+                customerDataArrayList.clear();
+            }
+            cAdapter.setCustomerDataArrayList(customerDataArrayList);
+            mListView.setAdapter(cAdapter);
+            cAdapter.notifyDataSetChanged();
 
 
         }
@@ -251,6 +259,7 @@ public class NotificationFragment extends Fragment {
         bAdapter = new BusinessDataArrayListAdapter(this.getActivity(), R.layout.new_list);
         cAdapter = new CustomerDataArrayListAdapter(this.getActivity(), R.layout.customer_list);
         businessDataArrayList = new ArrayList<BusinessData>();
+        nothingBusinessDataArrayList = new ArrayList<BusinessData>();
         customerDataArrayList = new ArrayList<CustomerData>();
         mListView = (ListView)v.findViewById(R.id.listView);
 
@@ -269,26 +278,26 @@ public class NotificationFragment extends Fragment {
 
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        flag = sp.getString(Const.FlagKEY, "");
+        flags = sp.getString(Const.FlagKEY, "");
 
         okListButton.setChecked(true);
 
 
-        String uid = user.getUid();
-        if (flag.equals("customer")){
+        Uid = user.getUid();
+        if (flags.equals("customer")){
             okListButton.setText("相談");
             yetListButton.setText("見積り申請中");
 
             businessDataArrayList.clear();
-            customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
+            customerPathRef.child(Const.CustomerAcceptPath).child(Uid).addChildEventListener(cEventListener);
             customerUserPathRef.addChildEventListener(bEventListener);
-              }else if (flag.equals("business")){
+        }else if (flags.equals("business")){
             okListButton.setText("商談");
             yetListButton.setText("見積り申請");
 
             customerDataArrayList.clear();
-            businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
-            businessPathRef.addChildEventListener(cEventListener);
+            businessPathRef.child(Const.BusinessAcceptPath).child(Uid).addChildEventListener(bEventListener);
+            businessUserPathRef.addChildEventListener(cEventListener);
         }
 
 
@@ -300,46 +309,33 @@ public class NotificationFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 RadioButton radioButton = (RadioButton) view.findViewById(checkedId);
                 String uid = user.getUid();
+                bAdapter.setBusinessDataArrayList(nothingBusinessDataArrayList);
+                mListView.setAdapter(bAdapter);
+                bAdapter.notifyDataSetChanged();
                 if (okListButton.isChecked() == true){
-                    if (flag.equals("customer")){
-                        customerDataArrayList.clear();
+                    if (flags.equals("customer")){
+                        businessDataArrayList.clear();
                         customerPathRef.child(Const.CustomerAcceptPath).child(uid).addChildEventListener(cEventListener);
 
-                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
-                        mListView.setAdapter(cAdapter);
-                        cAdapter.notifyDataSetChanged();
-                    }else if (flag.equals("business")){
+                    }else if (flags.equals("business")){
                         businessDataArrayList.clear();
 
                         businessPathRef.child(Const.BusinessAcceptPath).child(uid).addChildEventListener(bEventListener);
 
 
-                        bAdapter.setBusinessDataArrayList(businessDataArrayList);
-                        mListView.setAdapter(bAdapter);
-                        bAdapter.notifyDataSetChanged();
-
-
                     }
                 }else{
-                    if (flag.equals("customer")){
+                    if (flags.equals("customer")){
                         customerDataArrayList.clear();
                         customerPathRef.child(Const.CustomerRequestPath).child(uid).addChildEventListener(cEventListener);
 
-                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
-                        mListView.setAdapter(cAdapter);
-                        cAdapter.notifyDataSetChanged();
                         arFlag ="request";
-                        //customerPathRef.child(Const.CustomerRequestPath).addChildEventListener(cEventListener);
-                    }else if (flag.equals("business")){
+                    }else if (flags.equals("business")){
 
 
-                        businessDataArrayList
-                                .clear();
+                        businessDataArrayList.clear();
                         businessPathRef.child(Const.BusinessRequestPath).child(uid).addChildEventListener(bEventListener);
 
-                        cAdapter.setCustomerDataArrayList(customerDataArrayList);
-                        mListView.setAdapter(cAdapter);
-                        cAdapter.notifyDataSetChanged();
                         arFlag ="request";
 
                     }
@@ -352,7 +348,7 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (flag.equals("customer")){
+                if (flags.equals("customer")){
                     if(businessDataArrayList.size() != 0){
                         Bundle bundle = new Bundle();
                         bundle.putString("Uid", businessDataArrayList.get(position).getUid());
@@ -376,7 +372,6 @@ public class NotificationFragment extends Fragment {
                         bundle.putString("myRequest",myRequest);
                         bundle.putString("myFlag",myFlag);
 
-                        //bundle.putString("key", businessDataArrayList.get(position).getKey());
 
                         BusinessAccountFragment fragmentBusinessAccount = new BusinessAccountFragment();
                         fragmentBusinessAccount.setArguments(bundle);
@@ -409,11 +404,6 @@ public class NotificationFragment extends Fragment {
                         bundle.putString("myIndustry",myIndustry);
                         bundle.putString("myPr",myPr);
                         bundle.putString("myFlag",myFlag);
-
-
-                        //bundle.putString("key1", customerDataArrayList.get(position).getKey1());
-                        //bundle.putString("key2", customerDataArrayList.get(position).getKey2());
-
 
                         CustomerAccountFragment fragmentCustomerAccount = new CustomerAccountFragment();
                         fragmentCustomerAccount.setArguments(bundle);
