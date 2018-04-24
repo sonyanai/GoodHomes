@@ -115,6 +115,7 @@ public class NotificationFragment extends Fragment {
                     }
                 }
             }
+
             Uid = user.getUid();
 
             if (post.getUid().equals(Uid)){
